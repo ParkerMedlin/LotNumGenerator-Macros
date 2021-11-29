@@ -1,5 +1,5 @@
 # Blending-Schedule
-Version control for VBA macros in the blending schedule workbook
+Version control for VBA macros in the blending schedule workbook.
 
 
 ### This workbook is used for:
