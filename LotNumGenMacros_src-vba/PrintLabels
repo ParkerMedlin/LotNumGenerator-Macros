@@ -1,0 +1,70 @@
+Sub labelPrinter()
+'///Prints labels for the row selected/////////////////////////////////////////////////////////////////////////////////////
+'///Assigned to row M:M////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    Dim protecc As String
+    Dim labelPath As String
+    Dim labelCount As Integer
+
+'macros off
+    Call MacrosOff
+    
+'Paste values for the selected row into the other workbook so barTender can read them
+
+'I hate this so much. it utterly disgusts me that i have to do them one by one. childish
+    ActiveCell.Offset(0, -14).Select
+    Selection.Copy
+    Workbooks.Open "C:\OD\Kinpak, Inc\Blending - Documents\01 Spreadsheet Tools\Blending Label Templates & BTdatabases\BlendInventoryLabels\LabelGenLayover.xlsx"
+    Range("A5").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+   'sickening
+    Windows("Blending Lot Number Generator.xlsb").Activate
+    ActiveCell.Offset(0, 15).Select
+    Selection.Copy
+    Windows("LabelGenLayover.xlsx").Activate
+    Range("B5").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+   'do you kiss your mother with that mouth?
+    Windows("Blending Lot Number Generator.xlsb").Activate
+    ActiveCell.Offset(0, -13).Select
+    Selection.Copy
+    Windows("LabelGenLayover.xlsx").Activate
+    Range("C5").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+   'truly deplorable
+    Windows("Blending Lot Number Generator.xlsb").Activate
+    ActiveCell.Offset(0, 11).Select
+    Selection.Copy
+    Windows("LabelGenLayover.xlsx").Activate
+    Range("D5").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+   'now copy the top row so that barTender is pulling values rather than formulae
+    Range("A3:D3").Select
+    Selection.Copy
+    Range("A2").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+        
+'save & close so barTender can access the spreadsheet
+    Workbooks("LabelGenLayover.xlsx").Close SaveChanges:=True
+   
+'back to the og
+    Windows("Blending Lot Number Generator.xlsb").Activate
+    
+'establish the filepath for the label template we need to open
+    labelPath = "C:\OD\Kinpak, Inc\Blending - Documents\01 Spreadsheet Tools\Blending Label Templates & BTdatabases\BlendInventoryLabels\"
+    protecc = ActiveCell.Value
+    labelPath = labelPath & protecc & ".btw"
+    MsgBox labelPath
+    
+'open the bartender template
+  ActiveWorkbook.FollowHyperlink Address:=labelPath, NewWindow:=True
+    
+'macros on
+    Call MacrosOn
+    
+End Sub

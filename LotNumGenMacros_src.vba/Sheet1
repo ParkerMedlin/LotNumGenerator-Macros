@@ -1,0 +1,59 @@
+Private Sub TextBox1_Change()
+
+End Sub
+
+Private Sub Worksheet_SelectionChange(ByVal target As Range)
+
+'IssueSheetGen mapped to I:I
+If InStr(1, (Range("AA1").Value), "On") > 0 Then
+    If Selection.Count = 1 Then
+        If Not Intersect(target, Range("$I:$I")) Is Nothing Then
+            Call IssueSheetGen
+        End If
+    End If
+End If
+
+'BlendSheet mapped to K:K
+If InStr(1, (Range("AA2").Value), "On") > 0 Then
+    If Selection.Count = 1 Then
+        If Not Intersect(target, Range("$K:$K")) Is Nothing Then
+            Call blndSheetGen
+        End If
+    End If
+End If
+
+'PullSheetGen mapped to M:M
+If InStr(1, (Range("AA3").Value), "On") > 0 Then
+    If Selection.Count = 1 Then
+        If Not Intersect(target, Range("$M:$M")) Is Nothing Then
+            Call pullSheetGen
+        End If
+    End If
+End If
+
+'labelPrint mapped to O:O
+If InStr(1, (Range("AA3").Value), "On") > 0 Then
+    If Selection.Count = 1 Then
+        If Not Intersect(target, Range("$O:$O")) Is Nothing Then
+            Call labelPrinter
+        End If
+    End If
+End If
+
+
+
+
+'--------------------------------------------------------------------
+
+'Macros On
+If Selection.Count = 1 Then
+    If Not Intersect(target, Range("$W$1")) Is Nothing Then
+        Call MacrosOn
+    End If
+'Macros Off
+    If Not Intersect(target, Range("$X$1")) Is Nothing Then
+        Call MacrosOff
+    End If
+End If
+
+End Sub
