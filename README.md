@@ -9,6 +9,11 @@ Version control for VBA macros in the blending schedule workbook.
  - Reporting of inventory transaction timelines for easier comparison between Sage 100 database and actual inventory counts.
 
 
+
+
+
+
+
 *Update notes 11-30-2021*
  - updated lot number lookup macro to reflect new filepath
  - updated history report macro and daily count macro to reflect new filepaths
