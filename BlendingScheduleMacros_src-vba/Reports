@@ -2,96 +2,94 @@ Sub HistoryReport()
 '///Triggers when you type in a part number on the HistoryReport page//////////////////////////////////////////////////////
 '///Gives you a report of all BI and BR transactions as well as all of our counts//////////////////////////////////////////
 
-'Variables + create the new workbook
+'Navigation variables for the workbook names and the blend PN
     Dim blendPN As String
-        blendPN = ActiveCell.Offset(-1, 0).Value
+    blendPN = ActiveCell.Offset(-1, 0).Value
     Dim src As String
-        src = ActiveWorkbook.Name
-    Dim reportWBpath As String
-        reportWBpath = "C:\OD\Kinpak, Inc\Blending - Documents\03 Projects\History Report\HistoryReport.xlsb"
+    src = ActiveWorkbook.Name
     Dim reportWB As String
+    reportWB = "C:\OD\Kinpak, Inc\Blending - Documents\03 Projects\ReportGen-Destination\HistoryReport.xlsb"
    
 'Open History Report and clear the unnecessary sheets
-    Workbooks.Open (reportWBpath)
-        reportWB = ActiveWorkbook.Name
-        Call clearitAllHistoryReport
-        
+    Workbooks.Open (reportWB)
+    reportWB = ActiveWorkbook.Name
+    Call clearitAllHistoryReport
     Windows(src).Activate
     
 'BI_BR transactions:
     With ThisWorkbook
         Sheets("BI_BR_Hist").Visible = True
     End With
-        Sheets("BI_BR_Hist").Activate
-        ActiveSheet.ListObjects("BI_BR_Hist_SQLquery").Range.AutoFilter Field:=1, Criteria1:= _
-            blendPN
-        Range("A1:F1").Select
-        Selection.Copy
-        Windows(reportWB).Activate
-        Range("A1").Select
-        Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
-           :=False, Transpose:=False
-        Windows(src).Activate
-        ActiveSheet.ListObjects("BI_BR_Hist_SQLquery").DataBodyRange.SpecialCells(xlCellTypeVisible).Select
-        Selection.Copy
-        Windows(reportWB).Activate
-        Range("A2").Select
-        Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
-           :=False, Transpose:=False
-        ActiveSheet.Name = "transactHist"
-        Columns(3).Delete
-        Columns(4).Insert
-        Columns(4).Insert
-        Range("C:C").NumberFormat = "mm/dd/yyyy"
-        Worksheets("transactHist").Columns("A:F").AutoFit
-        Sheets.Add
-        Windows(src).Activate
-        ActiveSheet.ListObjects("BI_BR_Hist_SQLquery").Range.AutoFilter Field:=1
+    Sheets("BI_BR_Hist").Activate
+    ActiveSheet.ListObjects("BI_BR_Hist_SQLquery").Range.AutoFilter Field:=1, Criteria1:= _
+        blendPN
+    Range("A1:F1").Select
+    Selection.Copy
+    Windows(reportWB).Activate
+    Range("A1").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    Windows(src).Activate
+    ActiveSheet.ListObjects("BI_BR_Hist_SQLquery").DataBodyRange.SpecialCells(xlCellTypeVisible).Select
+    Selection.Copy
+    Windows(reportWB).Activate
+    Range("A2").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    ActiveSheet.Name = "transactHist"
+    Columns(3).Delete
+    Columns(4).Insert
+    Columns(4).Insert
+    Range("C:C").NumberFormat = "mm/dd/yyyy"
+    Worksheets("transactHist").Columns("A:F").AutoFit
+    Sheets.Add
+    Windows(src).Activate
+    ActiveSheet.ListObjects("BI_BR_Hist_SQLquery").Range.AutoFilter Field:=1
 
 'countLog:
     With ThisWorkbook
         Sheets("CountLog").Visible = True
         Sheets("CountLog").Activate
     End With
-        ActiveSheet.ListObjects("CountLog").Range.AutoFilter Field:=1
-        ActiveSheet.ListObjects("CountLog").Range.AutoFilter Field:=2
-        ActiveSheet.ListObjects("CountLog").Range.AutoFilter Field:=3
-        ActiveSheet.ListObjects("CountLog").Range.AutoFilter Field:=4
-        ActiveSheet.ListObjects("CountLog").Range.AutoFilter Field:=5
-        ActiveSheet.ListObjects("CountLog").Range.AutoFilter Field:=5, Criteria1:= _
-            blendPN
-        Range("E1:O1").Select
-        Selection.Copy
-        Windows(reportWB).Activate
-        Range("A1").Select
-        Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
-           :=False, Transpose:=False
-        Windows(src).Activate
-        ActiveSheet.ListObjects("countLog").DataBodyRange.SpecialCells(xlCellTypeVisible).Select
-        Selection.Copy
-        Windows(reportWB).Activate
-        Range("A2").Select
-        Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
-           :=False, Transpose:=False
-        ActiveSheet.Name = "countHist"
-        Columns(14).EntireColumn.Delete
-        Columns(13).EntireColumn.Delete
-        Columns(12).EntireColumn.Delete
-        Columns(11).EntireColumn.Delete
-        Columns(10).EntireColumn.Delete
-        Columns(9).EntireColumn.Delete
-        Columns(5).EntireColumn.Delete
-        Columns(4).EntireColumn.Delete
-        Columns(3).EntireColumn.Delete
-        Columns("E:E").Select
-        Selection.Cut
-        Columns("C:C").Select
-        Selection.Insert Shift:=xlToRight
-        Range("C:C").NumberFormat = "mm/dd/yyyy"
-        Worksheets("countHist").Columns("A:I").AutoFit
-        Windows(src).Activate
-        ActiveSheet.ListObjects("CountLog").Range.AutoFilter Field:=5
-        Windows(reportWB).Activate
+    ActiveSheet.ListObjects("CountLog").Range.AutoFilter Field:=1
+    ActiveSheet.ListObjects("CountLog").Range.AutoFilter Field:=2
+    ActiveSheet.ListObjects("CountLog").Range.AutoFilter Field:=3
+    ActiveSheet.ListObjects("CountLog").Range.AutoFilter Field:=4
+    ActiveSheet.ListObjects("CountLog").Range.AutoFilter Field:=5
+    ActiveSheet.ListObjects("CountLog").Range.AutoFilter Field:=5, Criteria1:= _
+        blendPN
+    Range("E1:O1").Select
+    Selection.Copy
+    Windows(reportWB).Activate
+    Range("A1").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+       :=False, Transpose:=False
+    Windows(src).Activate
+    ActiveSheet.ListObjects("countLog").DataBodyRange.SpecialCells(xlCellTypeVisible).Select
+    Selection.Copy
+    Windows(reportWB).Activate
+    Range("A2").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    ActiveSheet.Name = "countHist"
+    Columns(14).EntireColumn.Delete
+    Columns(13).EntireColumn.Delete
+    Columns(12).EntireColumn.Delete
+    Columns(11).EntireColumn.Delete
+    Columns(10).EntireColumn.Delete
+    Columns(9).EntireColumn.Delete
+    Columns(5).EntireColumn.Delete
+    Columns(4).EntireColumn.Delete
+    Columns(3).EntireColumn.Delete
+    Columns("E:E").Select
+    Selection.Cut
+    Columns("C:C").Select
+    Selection.Insert Shift:=xlToRight
+    Range("C:C").NumberFormat = "mm/dd/yyyy"
+    Worksheets("countHist").Columns("A:I").AutoFit
+    Windows(src).Activate
+    ActiveSheet.ListObjects("CountLog").Range.AutoFilter Field:=5
+    Windows(reportWB).Activate
    
 'Composite report ordered by date
     Sheets.Add
@@ -143,24 +141,27 @@ Sub todaysCounts()
 '///Assigned to the Sheet icon on CheckOutCounts page//////////////////////////////////////////////////////////////////////
 '///Gives you a report of counts that are still on the main checkoutcounts page////////////////////////////////////////////
 
-'Set the way back
+'Navigation variables for the workbook names
     Dim src As String
     src = ActiveWorkbook.Name
-
-'turn macros off
+    Dim reportWB As String
+    reportWB = "C:\OD\Kinpak, Inc\Blending - Documents\03 Projects\ReportGen-Destination\DailyCountReport.xlsm"
+    
+'Turn macros off
     Call macrosOff
 
 'Open workbook and clear info from last time
-    Workbooks.Open ("C:\OD\Kinpak, Inc\Blending - Documents\03 Projects\Daily Count Report\Daily Count Report.xlsm")
+    Workbooks.Open (reportWB)
+    reportWB = ActiveWorkbook.Name
     Columns("A:E").EntireColumn.Delete
     
-'Go back and get the blanks out and copy the list
+'Go back, get the blanks out, and copy the list
     Windows(src).Activate
     ActiveSheet.ListObjects("CheckOutCounts_query").DataBodyRange.SpecialCells(xlCellTypeVisible).Select
     Selection.Copy
     
 'Paste and insert row for headers
-    Windows("Daily Count Report.xlsm").Activate
+    Windows(reportWB).Activate
     Range("A1").Select
     Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
         :=False, Transpose:=False
@@ -171,7 +172,7 @@ Sub todaysCounts()
     Windows(src).Activate
     Range("A1:R1").Select
     Selection.Copy
-    Windows("Daily Count Report.xlsm").Activate
+    Windows(reportWB).Activate
     Range("A1").Select
     Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
         :=False, Transpose:=False
@@ -184,13 +185,13 @@ Sub todaysCounts()
     Columns("A:E").AutoFit
     
 
-'select the active stuff and format
+'Select the active stuff and format
     Dim addy As String
     Range("A1").End(xlDown).Select
     addy = ActiveCell.Address
     Range(addy & ":E1").Select
     
-'gross formatting borders ew this is so very chunk
+'Gross formatting borders ew this is so very chunk
     Selection.Borders(xlDiagonalDown).LineStyle = xlNone
     Selection.Borders(xlDiagonalUp).LineStyle = xlNone
     With Selection.Borders(xlEdgeLeft)
@@ -233,20 +234,107 @@ Sub todaysCounts()
     Range("A1:E1").Select
     Selection.Font.Bold = True
     
-'delete blanks and format date column
+'Delete blanks and format date column
     Columns("C:C").Select
     Selection.SpecialCells(xlCellTypeBlanks).Select
     Selection.EntireRow.Delete
     Range("D:D").Select
     Selection.NumberFormat = "m/d/yyyy"
    
-'back to other workbook to clean up
+'Back to other workbook, macrosOn, then end on destination workbook
     Windows(src).Activate
     Call macrosOn
-    
-    Windows("Daily Count Report.xlsm").Activate
+    Windows(reportWB).Activate
 
 
 End Sub
 
 
+Sub startronReport()
+'///Assigned to the startron logo on the BlendThese sheet//////////////////////////////////////////////////////////////////
+'///Selects the blendData sheet and filters the table there by the blend PN of the row you click on////////////////////////
+
+'Navigation variables for the workbook names
+    Dim src As String
+    src = ActiveWorkbook.Name
+    Dim reportWB As String
+    reportWB = "C:\OD\Kinpak, Inc\Blending - Documents\03 Projects\ReportGen-Destination\StartronReport.xlsm"
+
+'Open workbook and clear info from last time
+    Workbooks.Open (reportWB)
+    reportWB = ActiveWorkbook.Name
+    Columns("A:I").EntireColumn.Delete
+
+'Create an array with all the diff blend PN's
+    Dim filter(6) As Variant
+    filter(0) = "93100GAS.B"
+    filter(1) = "14308.B"
+    filter(2) = "14308AMBER.B"
+    filter(3) = "93100TANK.B"
+    filter(4) = "93100GASBLUE.B"
+    filter(5) = "93100GASAMBER.B"
+
+'Unhide and select BlendData sheet
+    Windows(src).Activate
+    Sheets("blendData").Visible = True
+    Sheets("blendData").Select
+
+    Dim lastrow As Long
+   
+'Loop--filter the list by each different startron blend PN and copy the table to the report workbook each time
+    For i = 0 To 5
+        With ThisWorkbook
+            ActiveSheet.ListObjects("blendData").Range.AutoFilter Field:=2, Criteria1:= _
+                filter(i)
+        End With
+        Range("A1:I2200").Copy
+        Windows(reportWB).Activate
+        lastrow = Range("A65536").End(xlUp).Row
+        Cells(lastrow + 1, 1).PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+        Windows(src).Activate
+    Next i
+
+'Filter blanks
+    Windows(reportWB).Activate
+    Dim inc As Integer
+    For inc = 2 To 100
+        If IsEmpty(Range("B" & inc).Value) Then
+            Rows(inc).EntireRow.Delete
+        ElseIf (Range("A" & inc).Value = "ID") Then
+            Rows(inc).EntireRow.Delete
+        End If
+    Next inc
+
+'Bring over the headers
+    Windows(src).Activate
+    ActiveSheet.ListObjects("blendData").Range.AutoFilter Field:=2
+    Range("A1:I1").Copy
+    Sheets("BlendThese").Select
+    Windows(reportWB).Activate
+    With ThisWorkbook
+    Range("A1").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    End With
+    
+'Make a table
+    ActiveSheet.ListObjects.Add(xlSrcRange, Range("$A$1:$I$200"), , xlYes).Name = _
+        "startronTable"
+    
+'Autofit columns
+    Columns("A:G").AutoFit
+
+'Sort by StartTime
+    ActiveWorkbook.Worksheets("Report").ListObjects("startronTable").Sort. _
+        SortFields.Add2 Key:=Range("startronTable[[#All],[StartTime]]"), SortOn:= _
+        xlSortOnValues, Order:=xlAscending, DataOption:=xlSortNormal
+    With ActiveWorkbook.Worksheets("Report").ListObjects("startronTable").Sort
+        .Header = xlYes
+        .MatchCase = False
+        .Orientation = xlTopToBottom
+        .SortMethod = xlPinYin
+        .Apply
+    End With
+
+
+End Sub
