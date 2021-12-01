@@ -1,4 +1,6 @@
-*Update notes 11-30-2021*
+# Update Notes
+
+### 11-30-2021
  - updated lot number lookup macro to reflect new filepath
  - updated history report macro and daily count macro to reflect new filepaths
  - added startron planning macro
