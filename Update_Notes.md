@@ -1,6 +1,6 @@
 # Update Notes
 
-##@ 12-1-2021
+### 12-1-2021
  - JRD pointed out a pitfall that I was running into with the empty row cleanup loop on startron report macro; resolved and pushed
 
 ### 11-30-2021
