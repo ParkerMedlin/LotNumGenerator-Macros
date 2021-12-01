@@ -265,45 +265,22 @@ Sub startronReport()
     reportWB = ActiveWorkbook.Name
     Columns("A:I").EntireColumn.Delete
 
-'Create an array with all the diff blend PN's
-    Dim filter(6) As Variant
-    filter(0) = "93100GAS.B"
-    filter(1) = "14308.B"
-    filter(2) = "14308AMBER.B"
-    filter(3) = "93100TANK.B"
-    filter(4) = "93100GASBLUE.B"
-    filter(5) = "93100GASAMBER.B"
-
 'Unhide and select BlendData sheet
     Windows(src).Activate
     Sheets("blendData").Visible = True
     Sheets("blendData").Select
-
-    Dim lastrow As Long
    
-'Loop--filter the list by each different startron blend PN and copy the table to the report workbook each time
-    For i = 0 To 5
-        With ThisWorkbook
-            ActiveSheet.ListObjects("blendData").Range.AutoFilter Field:=2, Criteria1:= _
-                filter(i)
-        End With
+'filter the list by all the different startron blend PNs and copy the table to the report workbook each time
+        ActiveSheet.ListObjects("blendData").Range.AutoFilter Field:=2, Criteria1:= _
+            Array("14308.B", "14308AMBER.B", "93100DSL.B", "93100GAS.B", "93100TANK.B", "93100GASBLUE.B", "93100GASAMBER.B"), _
+            Operator:=xlFilterValues
         Range("A1:I2200").Copy
         Windows(reportWB).Activate
-        lastrow = Range("A65536").End(xlUp).Row
-        Cells(lastrow + 1, 1).PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+        With ThisWorkbook
+            Range("A1").Select
+            Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+        End With
         Windows(src).Activate
-    Next i
-
-'Filter blanks
-    Windows(reportWB).Activate
-    Dim inc As Integer
-    For inc = 2 To 100
-        If IsEmpty(Range("B" & inc).Value) Then
-            Rows(inc).EntireRow.Delete
-        ElseIf (Range("A" & inc).Value = "ID") Then
-            Rows(inc).EntireRow.Delete
-        End If
-    Next inc
 
 'Bring over the headers
     Windows(src).Activate
@@ -320,6 +297,19 @@ Sub startronReport()
 'Make a table
     ActiveSheet.ListObjects.Add(xlSrcRange, Range("$A$1:$I$200"), , xlYes).Name = _
         "startronTable"
+    
+'loop through the first 100 rows and delete ones that don't have a count in them
+    Dim inc As Integer
+    Dim rowNum As Integer
+    rowNum = 3
+
+    For inc = 3 To 200
+        If IsEmpty(Range("B" & rowNum).Value) Then
+             Rows(rowNum).EntireRow.Delete
+        Else
+            rowNum = rowNum + 1
+        End If
+    Next inc
     
 'Autofit columns
     Columns("A:G").AutoFit
