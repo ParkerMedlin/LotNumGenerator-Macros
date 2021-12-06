@@ -87,8 +87,8 @@ End Sub
 
 
 Sub blndSheetGen()
-'Assigned to the green column to the right of the list of lot numbers.
-'Opens the blend sheet workbook for the blend on the row you click. Inputs the qty into said blend sheet.
+'///Assigned to the green column to the right of the list of lot numbers.//////////////////////////////////////////////////
+'///Opens the blend sheet workbook for the blend on the row you click. Inputs the qty into said blend sheet.///////////////
 
 'String for current workbook name
     Dim src As String
@@ -171,8 +171,7 @@ Sub pullSheetGen()
     BlendQty = ActiveCell.Offset(0, -2)
     Windows("Blending Schedule_1.3.xlsb").Activate
         
-'Insert the qty in cell M1
-    Range("M1").Value = BlendQty
+
     
 'Hide columns
     Range("A:B,E:F,H:I").Select
@@ -202,7 +201,7 @@ Sub pullSheetGen()
     Rows("1:1").Select
     Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromLeftOrAbove
     Range("C1").Select
-    ActiveCell.FormulaR1C1 = "Required chemicals for " & BlendPN + " " + BlendDesc + ", Lot " + LotNum + " -- Blend Qty: " + BlendQty
+    ActiveCell.FormulaR1C1 = "Required chemicals for " & BlendPN + " " + BlendDesc + ", Lot " + LotNum
     With Selection.Font
         .Name = "Calibri"
         .Size = 22
@@ -217,42 +216,23 @@ Sub pullSheetGen()
         .ThemeFont = xlThemeFontMinor
     End With
     Range("N1").Value = "x"
-    
-'Size the Location column appropriately
-'    Columns("I").ColumnWidth = 40
-    
-'print
-    Call pullSheetPrint
+  
+
+'Select
+    Range("A1:L1100").Select
+
+'Print
+    Selection.PrintOut Copies:=copyNumber
+
+'Clear filter
+    Call clearChemsToCheckFilter1
    
-'Show columns
+'Show columns again
     Range("A:B,E:E,G:G").Select
     Selection.EntireColumn.Hidden = False
 
-'
-    Sheets("BlendThese").Activate
-
 'MacrosOn in Lot Number Gen
     Windows(src).Activate
-    
     Call MacrosOn
     
-End Sub
-
-Sub pullSheetPrint()
-'///Internal use only. Just want to make sure the previous macro doesnt get too long///////////////////////////////////////
-'///Selects the appropritePrints the pull sheet, then triggers the clearout/unfilter macro/////////////////////////////////
-
-'Select
-    Range("A1:K1100").Select
-
-'Print
-    copyNumber = InputBox("Number of Printed Copies")
-        If Not copyNumber = "" Then
-            Selection.PrintOut Copies:=copyNumber
-        End If
-
-'Clear
-    Call clearChemsToCheckFilter1
-
-
 End Sub
