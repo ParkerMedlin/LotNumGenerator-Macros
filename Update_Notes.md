@@ -1,5 +1,9 @@
 # Update Notes
 
+### 12-1-2021
+ - JRD pointed out a pitfall that I was running into with the empty row cleanup loop on startron report macro; resolved and pushed
+     - rows would eventually be skipped because I was using the loop incrementor to store what row i was on, and number of the row I was on would change every time i deleted a row. once I added a separate `Integer` to track the row count, everything worked as intended. 
+
 ### 11-30-2021
  - updated lot number lookup macro to reflect new filepath
  - updated history report macro and daily count macro to reflect new filepaths
