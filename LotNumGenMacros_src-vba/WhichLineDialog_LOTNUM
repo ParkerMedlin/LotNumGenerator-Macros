@@ -2,10 +2,10 @@
 Private Sub drumButton_Click()
 '///What happens when you put in a Dm blend////////////////////////////////////////////////////////////////////////
 
-'put 'Dm' in the line cell
+    'put 'Dm' in the line cell
     Range("Q3").Value = "Dm"
 
-'fill the row 3 cells yellow
+    'fill the row 3 cells yellow
     Range("A3:U3").Select
     With Selection.Interior
         .Pattern = xlSolid
@@ -16,16 +16,43 @@ Private Sub drumButton_Click()
     End With
     
     Unload WhichLineDialog_LOTNUM
+
+    Dim runDay As String
+    Dim runDate As Date
+    runDate = InputBox("Enter the date as MM/DD/YYYY")
+    
+    Select Case Weekday(runDate)
+    
+        Case 1
+            runDay = "Sun"
+        Case 2
+            runDay = "Mon"
+        Case 3
+            runDay = "Tue"
+        Case 4
+            runDay = "Wed"
+        Case 5
+            runDay = "Thu"
+        Case 6
+            runDay = "Fri"
+        Case 7
+            runDay = "Sat"
+            
+    End Select
+    
+    Range("R3").Value = runDate
+    Range("S3").Value = runDay
+
     
 End Sub
 
 Private Sub horixButton_Click()
 '///What happens when you put in a Hx blend////////////////////////////////////////////////////////////////////////
 
-'put 'Hx' in the line cell
+    'put 'Hx' in the line cell
     Range("Q3").Value = "Hx"
 
-'fill the row 3 cells green
+    'fill the row 3 cells green
     Range("A3:U3").Select
     With Selection.Interior
         .Pattern = xlSolid
@@ -36,16 +63,42 @@ Private Sub horixButton_Click()
     End With
     
     Unload WhichLineDialog_LOTNUM
+    
+    Dim runDay As String
+    Dim runDate As Date
+    runDate = InputBox("Enter the date as MM/DD/YYYY")
+    
+    Select Case Weekday(runDate)
+    
+        Case 1
+            runDay = "Sun"
+        Case 2
+            runDay = "Mon"
+        Case 3
+            runDay = "Tue"
+        Case 4
+            runDay = "Wed"
+        Case 5
+            runDay = "Thu"
+        Case 6
+            runDay = "Fri"
+        Case 7
+            runDay = "Sat"
+            
+    End Select
+    
+    Range("R3").Value = runDate
+    Range("S3").Value = runDay
 
 End Sub
 
 Private Sub pailsButton_Click()
 '///What happens when you put in a pails blend/////////////////////////////////////////////////////////////////////
 
-'put 'Pails' in the line cell
+    'put 'Pails' in the line cell
     Range("Q3").Value = "Pails"
 
-'fill the row 3 cells yellow
+    'fill the row 3 cells yellow
     Range("A3:U3").Select
     With Selection.Interior
         .Pattern = xlSolid
@@ -54,19 +107,46 @@ Private Sub pailsButton_Click()
         .TintAndShade = 0.599993896298105
         .PatternTintAndShade = 0
     End With
-    
+
     Unload WhichLineDialog_LOTNUM
+    
+   Dim runDay As String
+    Dim runDate As Date
+    runDate = InputBox("Enter the date as MM/DD/YYYY")
+    
+    Select Case Weekday(runDate)
+    
+        Case 1
+            runDay = "Sun"
+        Case 2
+            runDay = "Mon"
+        Case 3
+            runDay = "Tue"
+        Case 4
+            runDay = "Wed"
+        Case 5
+            runDay = "Thu"
+        Case 6
+            runDay = "Fri"
+        Case 7
+            runDay = "Sat"
+            
+    End Select
+    
+    Range("R3").Value = runDate
+    Range("S3").Value = runDay
+
     
 End Sub
 
 Private Sub prodButton_Click()
     
-'put 'Prod' in the line cell
+    'put 'Prod' in the line cell
     Range("Q3").Value = "Prod"
     Range("R3").Value = " - "
     Range("S3").Value = " - "
     
-'no fill in the row 3 cells
+    'no fill in the row 3 cells
     Range("A3:U3").Select
     With Selection.Interior
         .Pattern = xlNone
@@ -81,10 +161,10 @@ End Sub
 Private Sub totesButton_Click()
 '///What happens when you put in a totes blend////////////////////////////////////////////////////////////////////
 
-'put 'Totes' in the line cell
+    'put 'Totes' in the line cell
     Range("Q3").Value = "Totes"
 
-'fill the row 3 cells yellow
+    'fill the row 3 cells yellow
     Range("A3:U3").Select
     With Selection.Interior
         .Pattern = xlSolid
@@ -95,6 +175,33 @@ Private Sub totesButton_Click()
     End With
     
     Unload WhichLineDialog_LOTNUM
+    
+    Dim runDay As String
+    Dim runDate As Date
+    runDate = InputBox("Enter the date as MM/DD/YYYY")
+    
+    Select Case Weekday(runDate)
+    
+        Case 1
+            runDay = "Sun"
+        Case 2
+            runDay = "Mon"
+        Case 3
+            runDay = "Tue"
+        Case 4
+            runDay = "Wed"
+        Case 5
+            runDay = "Thu"
+        Case 6
+            runDay = "Fri"
+        Case 7
+            runDay = "Sat"
+            
+    End Select
+    
+    Range("R3").Value = runDate
+    Range("S3").Value = runDay
+
     
 End Sub
 

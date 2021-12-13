@@ -222,7 +222,7 @@ Sub pullSheetGen()
     Range("A1:L1100").Select
 
 'Print
-    Selection.PrintOut Copies:=copyNumber
+    Selection.PrintOut Copies:=1
 
 'Clear filter
     Call clearChemsToCheckFilter1

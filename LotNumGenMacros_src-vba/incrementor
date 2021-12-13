@@ -1,3 +1,6 @@
+
+
+
 Sub increment()
 '///Not assigned to anything///////////////////////////////////////////////////////////////////////////////////////////////
 '///Inserts a new line and handles all the formula re-populating + time-stamping + incrementing lot no/////////////////////
@@ -162,8 +165,11 @@ End Sub
 
 
 Sub CopyLast()
-'///Assigned to up arrow on Lot Number Generator sheet/////////////////////////////////////////////////////////////////////
+'///Assigned to square>arrow>circle icon on Lot Number Generator sheet/////////////////////////////////////////////////////
 '///Horix and Drum lot numbers any% speedrun///////////////////////////////////////////////////////////////////////////////
+
+Call increment
+WhichLineDialog_LOTNUM.Show
 
 Dim i As Integer
 Dim loopCount As Integer

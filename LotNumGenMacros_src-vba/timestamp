@@ -1,6 +1,8 @@
 Sub stamp()
 '///Not sure if this is used anywhere//////////////////////////////////////////////////////////////////////////////////////
 
+
+
     Range("E2").Select
     ActiveCell.FormulaR1C1 = "=NOW()"
     Range("E2").Select
