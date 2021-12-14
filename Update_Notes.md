@@ -1,5 +1,9 @@
 # Update Notes
 
+### 12-14-2021 
+ - Updated the name of the blendData and bom.master tables to match convention (tableName_TABLE)
+ - Tried to add a function (cell formula) that would return the exact StartTime value of the run at which we will run short. Right now it is returning zero, and it is doing so very quickly.  Will return to this in the morning.   
+
 ### 12-1-2021
  - JRD pointed out a pitfall that I was running into with the empty row cleanup loop on startron report macro; resolved and pushed
      - rows would eventually be skipped because I was using the loop incrementor to store what row i was on, and number of the row I was on would change every time i deleted a row. once I added a separate `Integer` to track the row count, everything worked as intended. 
