@@ -46,7 +46,7 @@ Sub IssueSheetGen()
 
 'Fill issue sheet button gray
     Windows(src).Activate
-    Range(ActiveCell.Offset(0, 4), ActiveCell.Offset(0, 5)).Select
+    Range(ActiveCell, ActiveCell.Offset(0, 1)).Select
     With Selection.Interior
         .Pattern = xlSolid
         .PatternColorIndex = xlAutomatic
