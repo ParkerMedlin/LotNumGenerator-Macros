@@ -1,0 +1,31 @@
+Public Function REALSPECIFICHOURS(chemPN, blendPN, qtyPerBill, qtyOfChemOnHand)
+
+Dim scheduledBlendPN As String
+Dim runningChemTotal As Long
+Dim runtimeHour As Single
+Dim currentRow As Integer
+
+currentRow = 1
+
+Dim i As Integer
+i = 1
+
+Do While runningChemTotal < qtyOfChemOnHand
+    scheduledBlendPN = Sheets("blendData").Range("B" & currentRow).Value
+
+    If scheduledBlendPN = blendPN Then
+        runningChemTotal = runningChemTotal + (Sheets("blendData").Range("J" & currentRow).Value) * (qtyPerBill)
+    End If
+    If runningChemTotal > qtyOfChemOnHand Then
+        runtimeHour = Sheets("blendData").Range("G" & currentRow).Value
+        Exit Do
+    End If
+
+    currentRow = currentRow + 1
+    runtimeHour = Sheets("blendData").Range("G" & currentRow).Value
+Loop
+
+'this part is working. it is returning start time value for the row specified by currentRow's value
+REALSPECIFICHOURS = runtimeHour
+
+End Function

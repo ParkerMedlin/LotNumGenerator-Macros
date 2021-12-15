@@ -17,7 +17,7 @@ Sub blndShtGen3wk()
     
 'Paste the shortage qty value into the theory gallons cell
     Cells.Find(What:="Theory Gallons", After:=ActiveCell, LookIn:=xlFormulas2 _
-        , Lookat:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
+        , LookAt:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
         MatchCase:=False, SearchFormat:=False).Activate
     ActiveCell.Offset(1, 0).Range("A1").Select
     Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
@@ -53,7 +53,7 @@ Sub blndShtGen2wk()
     
 'Paste the shortage qty value into the theory gallons cell
     Cells.Find(What:="Theory Gallons", After:=ActiveCell, LookIn:=xlFormulas2 _
-        , Lookat:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
+        , LookAt:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
         MatchCase:=False, SearchFormat:=False).Activate
     ActiveCell.Offset(1, 0).Range("A1").Select
     Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
@@ -89,7 +89,7 @@ Sub blndShtGen1wk()
     
 'Paste the shortage qty value into the theory gallons cell
     Cells.Find(What:="Theory Gallons", After:=ActiveCell, LookIn:=xlFormulas2 _
-        , Lookat:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
+        , LookAt:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
         MatchCase:=False, SearchFormat:=False).Activate
     ActiveCell.Offset(1, 0).Range("A1").Select
     Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
