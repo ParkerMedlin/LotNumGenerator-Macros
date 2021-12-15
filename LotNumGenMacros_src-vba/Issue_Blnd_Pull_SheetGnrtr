@@ -1,70 +1,48 @@
 Sub IssueSheetGen()
 '///Linked to F:F on  on Lot Number Generator sheet////////////////////////////////////////////////////////////////////////
-'///Generates an issue sheet for the blend PN of the row that is clicked///////////////////////////////////////////////////
+'///Generates an issue sheet for the blend of the row that is clicked//////////////////////////////////////////////////////
 
 'Set the way back to the current workbook
     Dim src As String
     src = ActiveWorkbook.Name
+    Dim tempStor(6) As Variant
 
 'Turn Macros Off
     Call MacrosOff
 
+'Put everything in the array
+    tempStor(1) = ActiveCell.Offset(0, -8).Value
+    tempStor(2) = ActiveCell.Offset(0, -7).Value
+    tempStor(3) = ActiveCell.Offset(0, -6).Value
+    tempStor(4) = ActiveCell.Offset(0, -5).Value
+    tempStor(5) = ActiveCell.Offset(0, 9).Value
+
+'Store the line value in array too
+    Select Case ActiveCell.Offset(0, 8).Value
+    Case "Hx"
+        tempStor(6) = "Horix"
+    Case "Dm"
+        tempStor(6) = "Drums"
+    Case "Prod"
+        tempStor(6) = ""
+    Case "Totes"
+        tempStor(6) = "Totes"
+    Case "Pails"
+        tempStor(6) = "Pails"
+    End Select
+
 'Open the blend issue sheet
-    ChDir "G:\Blending\02 Blending Issue Sheet"
     Workbooks.Open Filename:= _
         "G:\Blending\02 Blending Issue Sheet\Blending Issue Sheet.xlsb"
 
-'Go back to the original workbook (Blending Lot Number Generator) and copy the blend description
-    Windows(src).Activate
-        ActiveCell.Offset(0, -8).Select
-        Selection.Copy
-        
-'Go to blend issue sheet workbook and paste the blend description
-    Windows("Blending Issue Sheet.xlsb").Activate
-        Range("$B$8").Select
-        Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
-        :=False, Transpose:=False
-        
-'Go to the original workbook (Blending Lot Number Generator) and copy the quantity for the line you clicked
-    Windows(src).Activate
-        ActiveCell.Offset(0, 1).Select
-        Application.CutCopyMode = False
-        Selection.Copy
-
-
-'Go to blend issue sheet workbook and paste the qty
-    Windows("Blending Issue Sheet.xlsb").Activate
-        Range("$D$8").Select
-        Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
-            :=False, Transpose:=False
-            
-'Go to the original workbook (Blending Lot Number Generator) and copy the lot number for the line you clicked
-    Windows(src).Activate
-        ActiveCell.Offset(0, 1).Select
-        Application.CutCopyMode = False
-        Selection.Copy
-        
-'Go to blend issue sheet workbook and paste the lot num
-    Windows("Blending Issue Sheet.xlsb").Activate
-        Range("$B$10").Select
-        Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
-            :=False, Transpose:=False
-         
-'Go to the original workbook (Blending Lot Number Generator) and copy the quantity for the line you clicked
-    Windows(src).Activate
-        ActiveCell.Offset(0, 1).Select
-        Application.CutCopyMode = False
-        Selection.Copy
-
-
-'Go to blend issue sheet workbook and paste the qty
-    Windows("Blending Issue Sheet.xlsb").Activate
-        Range("$B$11").Select
-        Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
-            :=False, Transpose:=False
-
-'show the dialog box to fill in which line it is
-    WhichLineDialog_ISSUE.Show
+    With ActiveWorkbook
+        Range("B8").Value = tempStor(1)
+        Range("D8").Value = tempStor(2)
+        Range("B10").Value = tempStor(3)
+        Range("B11").Value = tempStor(4)
+        Range("D4").Value = tempStor(5)
+        Range("D6").Value = tempStor(6)
+    End With
 
 'Fill issue sheet button gray
     Windows(src).Activate

@@ -173,7 +173,7 @@ WhichLineDialog_LOTNUM.Show
 
 Dim i As Integer
 Dim loopCount As Integer
-loopCount = Application.InputBox(Prompt:="How many copies?", Type:=1)
+loopCount = Application.InputBox(Prompt:="How many more copies?", Type:=1)
 
 'For loop that will run as many times as it is told to in the inputbox
 

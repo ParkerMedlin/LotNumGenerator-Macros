@@ -1,5 +1,8 @@
 # Update Notes
 
+### 12-15-2021
+ - Made the issue sheet generator function faster by a factor of approximately 1000 by using an array instead of copypasting back & forth between windows. Also eliminated need for userform dictating to select line. 
+
 ### 12-13-2021 
  - Added incrementor functionality to the CopyLast() function 
 	 - Issue arose when Shawn went to make multiple copies of a blend without first using the plus sign to make the first lot number. JRD pointed out that it probably makes more sense to change the program. 
