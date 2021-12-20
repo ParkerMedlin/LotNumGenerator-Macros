@@ -22,7 +22,7 @@ Sub clearChemsToCheckFilter1()
 '///Assigned to cell N1////////////////////////////////////////////////////////////////////////////////////////////////////
 '///Clears the filter only for [BlendPN], also sets M1 to blank////////////////////////////////////////////////////////////
 
-   ActiveSheet.ListObjects("bom_ChemsToCheck_query").Range.AutoFilter Field:=1
+   ActiveSheet.ListObjects("pickSheet_TABLE").Range.AutoFilter Field:=1
    Rows.EntireRow("1:1").Delete
    Rows.EntireRow("1:1").Delete
    Range("M1").Value = ""

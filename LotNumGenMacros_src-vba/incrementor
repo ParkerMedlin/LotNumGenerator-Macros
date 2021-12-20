@@ -1,6 +1,3 @@
-
-
-
 Sub increment()
 '///Not assigned to anything///////////////////////////////////////////////////////////////////////////////////////////////
 '///Inserts a new line and handles all the formula re-populating + time-stamping + incrementing lot no/////////////////////
@@ -222,8 +219,6 @@ Next i
 End Sub
 
 
-
-
 Private Sub drumFormat()
 '///What happens when you put in a Dm blend////////////////////////////////////////////////////////////////////////
 
@@ -279,7 +274,8 @@ Private Sub pailsFormat()
 End Sub
 
 Private Sub prodFormat()
-    
+'///What happens when you put in a production blend///////////////////////////////////////////////////////////////
+
 'put 'Prod' in the line cell
     Range("Q3").Value = "Prod"
     Range("R3").Value = " - "

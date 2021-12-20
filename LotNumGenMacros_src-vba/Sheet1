@@ -14,7 +14,7 @@ If InStr(1, (Range("AA1").Value), "On") > 0 Then
 End If
 
 'BlendSheet mapped to K:K
-If InStr(1, (Range("AA2").Value), "On") > 0 Then
+If InStr(1, (Range("AA1").Value), "On") > 0 Then
     If Selection.Count = 1 Then
         If Not Intersect(target, Range("$K:$K")) Is Nothing Then
             Call blndSheetGen
@@ -23,16 +23,16 @@ If InStr(1, (Range("AA2").Value), "On") > 0 Then
 End If
 
 'PullSheetGen mapped to M:M
-If InStr(1, (Range("AA3").Value), "On") > 0 Then
+If InStr(1, (Range("AA1").Value), "On") > 0 Then
     If Selection.Count = 1 Then
         If Not Intersect(target, Range("$M:$M")) Is Nothing Then
-            Call pullSheetGen
+            Call pickSheetGen
         End If
     End If
 End If
 
 'labelPrint mapped to O:O
-If InStr(1, (Range("AA3").Value), "On") > 0 Then
+If InStr(1, (Range("AA1").Value), "On") > 0 Then
     If Selection.Count = 1 Then
         If Not Intersect(target, Range("$O:$O")) Is Nothing Then
             Call labelPrinter

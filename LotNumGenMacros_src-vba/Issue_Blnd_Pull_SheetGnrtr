@@ -110,7 +110,7 @@ Sub blndSheetGen()
 
 End Sub
 
-Sub pullSheetGen()
+Sub pickSheetGen()
 '///Assigned to K:K to the right of the list of lot nums///////////////////////////////////////////////////////////////////
 '///Opens the blend schedule filters ChemsToCheck to the requirements of the blend in question/////////////////////////////
 
@@ -141,7 +141,7 @@ Sub pullSheetGen()
 'Go to blend schedule and filter [BlendPN] by the PN copied from Lot Number Gen
     Windows("Blending Schedule_1.3.xlsb").Activate
     Worksheets("ChemsToCheck").Activate
-    ActiveSheet.ListObjects("bom_ChemsToCheck_query").Range.AutoFilter Field:=1, Criteria1:= _
+    ActiveSheet.ListObjects("pickSheet_TABLE").Range.AutoFilter Field:=1, Criteria1:= _
             BlendPN
        
 'Go back to the original workbook (Blending Lot Number Generator) and copy the quantity for the line you clicked
