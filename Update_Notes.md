@@ -1,5 +1,10 @@
 # Update Notes
 
+### 12-21-2021
+ - Updated the labelPrinter subroutine so it now uses an array instead of copypasta
+ - Changed the issue sheet gen subroutine so it now points to NOT_Blending_Issue_Sheet.xlsb
+ - Removed unused module "Timestamp"
+
 ### 12-20-2021
  - Renamed pullsheetgen to picksheetgen and updated content of it to reflect new table names.
 

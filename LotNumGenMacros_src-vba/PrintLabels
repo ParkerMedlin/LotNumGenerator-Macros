@@ -1,3 +1,55 @@
+Public Declare PtrSafe Function GetTickCount Lib "kernel32.dll" () As Long
+
+Sub Delay(Finish As Long)
+    Dim NowTick As Long
+    Dim EndTick As Long
+    
+    EndTick = GetTickCount + (Finish * 1000)
+    
+    Do
+        NowTick = GetTickCount
+        DoEvents
+    
+    Loop Until NowTick >= EndTick
+End Sub
+
+Sub EoDPrint()
+    
+    ' Refresh schedule
+    Call refreshAll
+    
+    Delay (5)
+    
+    
+        
+    Delay (4)
+        
+    Application.SendKeys "%fp", True
+    Delay (3)
+    Application.SendKeys "%k", True
+    Application.SendKeys "{RIGHT}~", True
+    Application.SendKeys "{ESC}", True
+    
+    Delay (4)
+    
+    Sheets("KITS").Select
+    ActiveWindow.SelectedSheets.PrintOut From:=1, To:=2, Copies:=3, Collate _
+        :=True, IgnorePrintAreas:=False
+        
+    Delay (4)
+    
+    Application.SendKeys "%fp", True
+    Delay (3)
+    Application.SendKeys "%k", True
+    Application.SendKeys "{LEFT}~", True
+    Application.SendKeys "{ESC}", True
+
+    Delay (4)
+    
+    ActiveWorkbook.Close True
+
+End Sub
+
 Sub labelPrinter()
 '///Prints labels for the row selected/////////////////////////////////////////////////////////////////////////////////////
 '///Assigned to row M:M////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -5,66 +57,53 @@ Sub labelPrinter()
     Dim protecc As String
     Dim labelPath As String
     Dim labelCount As Integer
+    Dim labelInfo(4) As Variant
 
-'macros off
+    'macros off
     Call MacrosOff
-    
-'Paste values for the selected row into the other workbook so barTender can read them
 
-'I hate this so much. it utterly disgusts me that i have to do them one by one. childish
-    ActiveCell.Offset(0, -14).Select
-    Selection.Copy
-    Workbooks.Open "C:\OD\Kinpak, Inc\Blending - Documents\01 Spreadsheet Tools\Blending Label Templates & BTdatabases\BlendInventoryLabels\LabelGenLayover.xlsx"
-    Range("A5").Select
-    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
-        :=False, Transpose:=False
-   'sickening
-    Windows("Blending Lot Number Generator.xlsb").Activate
-    ActiveCell.Offset(0, 15).Select
-    Selection.Copy
-    Windows("LabelGenLayover.xlsx").Activate
-    Range("B5").Select
-    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
-        :=False, Transpose:=False
-   'do you kiss your mother with that mouth?
-    Windows("Blending Lot Number Generator.xlsb").Activate
-    ActiveCell.Offset(0, -13).Select
-    Selection.Copy
-    Windows("LabelGenLayover.xlsx").Activate
-    Range("C5").Select
-    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
-        :=False, Transpose:=False
-   'truly deplorable
-    Windows("Blending Lot Number Generator.xlsb").Activate
-    ActiveCell.Offset(0, 11).Select
-    Selection.Copy
-    Windows("LabelGenLayover.xlsx").Activate
-    Range("D5").Select
-    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
-        :=False, Transpose:=False
-   'now copy the top row so that barTender is pulling values rather than formulae
-    Range("A3:D3").Select
-    Selection.Copy
-    Range("A2").Select
-    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
-        :=False, Transpose:=False
-        
-'save & close so barTender can access the spreadsheet
-    Workbooks("LabelGenLayover.xlsx").Close SaveChanges:=True
-   
-'back to the og
-    Windows("Blending Lot Number Generator.xlsb").Activate
-    
-'establish the filepath for the label template we need to open
+    'select the correct filepath for the barTender document based on which protections are needed
     labelPath = "C:\OD\Kinpak, Inc\Blending - Documents\01 Spreadsheet Tools\Blending Label Templates & BTdatabases\BlendInventoryLabels\"
-    protecc = ActiveCell.Value
+    protecc = ActiveCell.Offset(0, -1).Value
     labelPath = labelPath & protecc & ".btw"
-    MsgBox labelPath
+
+    'number of labels to be made
+    labelCount = ActiveCell.Value
+
+    'Set values into array slots
+    labelInfo(0) = ActiveCell.Offset(0, 1).Value   'shortname
+    labelInfo(1) = ActiveCell.Offset(0, -1).Value  'protection type
+    labelInfo(2) = ActiveCell.Offset(0, -12).Value 'lot number
+    labelInfo(3) = ActiveCell.Offset(0, -14).Value 'blend PN
+
+    'Put everything over there in the workbook that feeds the barTender templates
+    Workbooks.Open "C:\OD\Kinpak, Inc\Blending - Documents\01 Spreadsheet Tools\Blending Label Templates & BTdatabases\BlendInventoryLabels\LabelGenLayover.xlsx"
+    Range("A2").Value = labelInfo(3)
+    Range("B2").Value = labelInfo(0)
+    Range("C2").Value = labelInfo(2)
+    Range("D2").Value = labelInfo(1)
+
+    'save & close so barTender can access the spreadsheet
+    Workbooks("LabelGenLayover.xlsx").Close SaveChanges:=True
+
+    'open the bartender template
+    Workbooks("Blending Lot Number Generator.xlsb").Activate
+    ActiveWorkbook.FollowHyperlink Address:=labelPath, NewWindow:=True
     
-'open the bartender template
-  ActiveWorkbook.FollowHyperlink Address:=labelPath, NewWindow:=True
+    'keys to navigate dialog boxes and then print
+    'Delay (1)
+    Application.SendKeys "{LEFT}~", True
+    'Delay (1)
+    Application.SendKeys "{LEFT}~", True
+    'Delay (2)
+    Application.SendKeys "^p", True
+    'Delay (2)
+    Application.SendKeys labelCount, True
+    Application.SendKeys "{Enter}", True
     
-'macros on
+    Workbooks("Blending Lot Number Generator.xlsb").Activate
+    
+    'macros on
     Call MacrosOn
     
 End Sub
