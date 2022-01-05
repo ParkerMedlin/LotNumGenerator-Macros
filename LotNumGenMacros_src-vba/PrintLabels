@@ -106,4 +106,7 @@ Sub labelPrinter()
     'macros on
     Call MacrosOn
     
+    'turn NumLock back on
+    ToggleNumlock True
+    
 End Sub
