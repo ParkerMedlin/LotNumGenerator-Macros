@@ -86,20 +86,25 @@ Sub labelPrinter()
     'save & close so barTender can access the spreadsheet
     Workbooks("LabelGenLayover.xlsx").Close SaveChanges:=True
 
-    'open the bartender template
+    'go back to blend lot num generator workbook and determine label qty
     Workbooks("Blending Lot Number Generator.xlsb").Activate
+    
+    Dim answer As Integer
+    answer = MsgBox("Print the pre-calculated number of labels for this lot?", vbQuestion + vbYesNo + vbDefaultButton2, "Label Quantity")
+    
     ActiveWorkbook.FollowHyperlink Address:=labelPath, NewWindow:=True
     
-    'keys to navigate dialog boxes and then print
-    'Delay (1)
-    Application.SendKeys "{LEFT}~", True
-    'Delay (1)
-    Application.SendKeys "{LEFT}~", True
-    'Delay (2)
-    Application.SendKeys "^p", True
-    'Delay (2)
-    Application.SendKeys labelCount, True
-    Application.SendKeys "{Enter}", True
+    If answer = vbYes Then
+        Application.SendKeys "{LEFT}~", True
+        Application.SendKeys "{LEFT}~", True
+        Application.SendKeys "^p", True
+        Application.SendKeys labelCount, True
+        Application.SendKeys "{Enter}", True
+    Else
+        Application.SendKeys "{LEFT}~", True
+        Application.SendKeys "{LEFT}~", True
+        Application.SendKeys "^p", True
+    End If
     
     Workbooks("Blending Lot Number Generator.xlsb").Activate
     

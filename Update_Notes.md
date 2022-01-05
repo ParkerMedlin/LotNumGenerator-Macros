@@ -1,5 +1,8 @@
 # Update Notes
 
+### 1-5-2022 AGAIN
+ - Added a dialog box to labelPrinter sub so it doesn't automatically print the whole pre-calculated quantity of labels.
+
 ### 1-5-2022 
  - Added NumLock module so that I could re-enable NumLock after the labelPrinter Sub, which for some reason started turning off NumLock after i changed it to print the labels in bartender with Sendkeys.
 

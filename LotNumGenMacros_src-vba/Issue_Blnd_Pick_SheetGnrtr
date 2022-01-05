@@ -223,6 +223,8 @@ Sub pickSheetGen()
     'Show columns again
     Range("A:B,E:E,G:G").Select
     Selection.EntireColumn.Hidden = False
+    
+    Sheets("BlendThese").Activate
 
     'MacrosOn in Lot Number Gen
     Windows(src).Activate
