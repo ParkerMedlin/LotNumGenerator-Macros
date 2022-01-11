@@ -13,42 +13,7 @@ Sub Delay(Finish As Long)
     Loop Until NowTick >= EndTick
 End Sub
 
-Sub EoDPrint()
-    
-    ' Refresh schedule
-    Call refreshAll
-    
-    Delay (5)
-    
-    
-        
-    Delay (4)
-        
-    Application.SendKeys "%fp", True
-    Delay (3)
-    Application.SendKeys "%k", True
-    Application.SendKeys "{RIGHT}~", True
-    Application.SendKeys "{ESC}", True
-    
-    Delay (4)
-    
-    Sheets("KITS").Select
-    ActiveWindow.SelectedSheets.PrintOut From:=1, To:=2, Copies:=3, Collate _
-        :=True, IgnorePrintAreas:=False
-        
-    Delay (4)
-    
-    Application.SendKeys "%fp", True
-    Delay (3)
-    Application.SendKeys "%k", True
-    Application.SendKeys "{LEFT}~", True
-    Application.SendKeys "{ESC}", True
 
-    Delay (4)
-    
-    ActiveWorkbook.Close True
-
-End Sub
 
 Sub labelPrinter()
 '///Prints labels for the row selected/////////////////////////////////////////////////////////////////////////////////////
@@ -106,7 +71,15 @@ Sub labelPrinter()
         Application.SendKeys "^p", True
     End If
     
+    'color cell gray
     Workbooks("Blending Lot Number Generator.xlsb").Activate
+    With Selection.Interior
+        .Pattern = xlSolid
+        .PatternColorIndex = xlAutomatic
+        .ThemeColor = xlThemeColorDark1
+        .TintAndShade = -0.249977111117893
+       .PatternTintAndShade = 0
+    End With
     
     'macros on
     Call MacrosOn

@@ -11,10 +11,10 @@ Sub IssueSheetGen()
     Call MacrosOff
 
     'Put everything in the array
-    tempStor(0) = ActiveCell.Offset(0, -7).Value 'blend PN
-    tempStor(1) = ActiveCell.Offset(0, -6).Value 'blend Description
-    tempStor(2) = ActiveCell.Offset(0, -5).Value 'lot number
-    tempStor(3) = ActiveCell.Offset(0, -4).Value 'quantity
+    tempStor(0) = ActiveCell.Offset(0, -8).Value 'blend PN
+    tempStor(1) = ActiveCell.Offset(0, -7).Value 'blend Description
+    tempStor(2) = ActiveCell.Offset(0, -6).Value 'lot number
+    tempStor(3) = ActiveCell.Offset(0, -5).Value 'quantity
     tempStor(4) = ActiveCell.Offset(0, 9).Value  'run date
 
     'Store the line value in array too
@@ -46,7 +46,7 @@ Sub IssueSheetGen()
 
     'Fill issue sheet button gray
     Windows(src).Activate
-    Range(ActiveCell, ActiveCell.Offset(0, 1)).Select
+    ActiveCell.Select
     With Selection.Interior
         .Pattern = xlSolid
         .PatternColorIndex = xlAutomatic
@@ -98,7 +98,7 @@ On Error GoTo JustInCase
 
     'Fill blend sheet button gray
     Windows(src).Activate
-    Range(ActiveCell, ActiveCell.Offset(0, -1)).Select
+    ActiveCell.Select
     With Selection.Interior
         .Pattern = xlSolid
         .PatternColorIndex = xlAutomatic
@@ -158,8 +158,9 @@ Sub pickSheetGen()
         
     'Go to blend schedule and filter [BlendPN] by the PN copied from Lot Number Gen
     Windows("Blending Schedule_1.3.xlsb").Activate
-    Worksheets("ChemsToCheck").Activate
-    ActiveSheet.ListObjects("pickSheet_TABLE").Range.AutoFilter Field:=1, Criteria1:= _
+    Worksheets("pickSheetTable").Visible = True
+    Worksheets("pickSheetTable").Activate
+    ActiveSheet.ListObjects("pickSheetTable_query").Range.AutoFilter Field:=1, Criteria1:= _
             BlendPN
        
     'Go back to the original workbook (Blending Lot Number Generator) and copy the quantity for the line you clicked
@@ -224,10 +225,20 @@ Sub pickSheetGen()
     Range("A:B,E:E,G:G").Select
     Selection.EntireColumn.Hidden = False
     
+    Worksheets("pickSheetTable").Visible = False
     Sheets("BlendThese").Activate
 
     'MacrosOn in Lot Number Gen
     Windows(src).Activate
+    ActiveCell.Select
+    With Selection.Interior
+        .Pattern = xlSolid
+        .PatternColorIndex = xlAutomatic
+        .ThemeColor = xlThemeColorDark1
+        .TintAndShade = -0.249977111117893
+       .PatternTintAndShade = 0
+    End With
+    
     Call MacrosOn
     
 End Sub

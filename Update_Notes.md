@@ -1,5 +1,8 @@
 # Update Notes
 
+### 1-11-2022
+ - Various trimming down of subroutines. Also added text box for documentation of the different macro-linked icons. 
+
 ### 1-5-2022 AGAIN
  - Added a dialog box to labelPrinter sub so it doesn't automatically print the whole pre-calculated quantity of labels.
 
