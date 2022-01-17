@@ -2,152 +2,40 @@ Sub increment()
 '///Not assigned to anything///////////////////////////////////////////////////////////////////////////////////////////////
 '///Inserts a new line and handles all the formula re-populating + time-stamping + incrementing lot no/////////////////////
 
-'Macros off
-    Call MacrosOff
+Call MacrosOff
 
-'Copy everything on the first line and insert it below
-    Range("H1").Select
-    ActiveCell.FormulaR1C1 = "=RC[-1]+1"
-    Range("H1").Select
-    Selection.Copy
-    Range("G1").Select
-    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
-        :=False, Transpose:=False
-    Range("H1").Select
-    Application.CutCopyMode = False
-    Selection.ClearContents
-    Sheets("Lot Number Generator").Select
-    Range("A2:E2").Select
-    With Selection.Interior
-        .Pattern = xlNone
-        .TintAndShade = 0
-        .PatternTintAndShade = 0
-    End With
-    Rows("2:2").Select
-    Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromLeftOrAbove
+'make an array, grab lot info, insert it in the new row, timestamp it
+Dim batchInfo(4) As Variant
 
-'Copy the latest lot number from the lot generator sheet and paste it into the top row for the next lot
-    Sheets("lotGenerator").Select
-    Range("F1").Select
-    Selection.Copy
-    Sheets("Lot Number Generator").Select
-    Range("C2").Select
-    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
-        :=False, Transpose:=False
-    Range("A2:C2").Select
-    Application.CutCopyMode = False
-    Range("A2").Select
-
-'Replace blend PN formula in A2
-    ActiveCell.FormulaR1C1 = _
-        "=INDEX(BLNDSHTS[ComponentItemCode from Sage],MATCH(R[0]C[1],BLNDSHTS[Description from Sage],0))"
-    Range("B2").Select
-    With Selection.Validation
-        .Delete
-        .Add Type:=xlValidateList, AlertStyle:=xlValidAlertStop, Operator:= _
-        xlBetween, Formula1:="=search!$A$1#"
-        .IgnoreBlank = True
-        .InCellDropdown = True
-        .InputTitle = ""
-        .ErrorTitle = ""
-        .InputMessage = ""
-        .ErrorMessage = ""
-        .ShowInput = True
-        .ShowError = False
-    End With
-
-'Format row 2
-    Range("A2:E2").Select
-    Selection.Font.Bold = False
-    With Selection.Font
-        .ColorIndex = xlAutomatic
-        .TintAndShade = 0
-    End With
-        With Selection.Interior
-        .Pattern = xlSolid
-        .PatternColorIndex = xlAutomatic
-        .ThemeColor = xlThemeColorAccent1
-        .TintAndShade = 0.799981688894314
-        .PatternTintAndShade = 0
-    End With
-        Range("F2:U2").Select
-    With Selection.Interior
-        .Pattern = xlNone
-        .TintAndShade = 0
-        .PatternTintAndShade = 0
-    End With
-
-'Insert DateTime into the date column
-    Range("E2").Select
-    ActiveCell.FormulaR1C1 = "=NOW()"
-    Range("E2").Select
-    Selection.Copy
-    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
-        :=False, Transpose:=False
-    Application.CutCopyMode = False
+batchInfo(0) = Range("A2").Value
+batchInfo(1) = Range("B2").Value
+batchInfo(2) = Range("C2").Value
+batchInfo(3) = Range("D2").Value
+Rows("3:3").Select
+Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromRightOrBelow
+Range("A3").Value = batchInfo(0)
+Range("B3").Value = batchInfo(1)
+Range("C3").Value = batchInfo(2)
+Range("D3").Value = batchInfo(3)
+Range("E3").Value = Now()
 
 'Copy play button and qty and arrow icon to new row
-    Range("G4:V4").Select
-    Selection.Copy
-    Range("G3").Select
-    ActiveCell.PasteSpecial Paste:=xlPasteAll
+Range("G4:V4").Select
+Selection.Copy
+Range("G3").Select
+ActiveCell.PasteSpecial Paste:=xlPasteAll
 
-'Clear out the date and other info from Line/Run Date/Day columns
-    Range("Q3:S3").ClearContents
-    
-'Delete Conditional Formatting that has copied down to the next row from the MacrosOn/MacrosOff buttons
-    Range("K2:X2").Select
-    Selection.FormatConditions.Delete
-    
-'Issue sheet header
-    Range("H1").Value = "IssueSht"
+'Increment the seed number
+Range("G1").Value = Range("G1").Value + 1
 
-'Clear AA5
-    Range("AA5").Select
-    Selection.ClearContents
-    Range("A3").Select
-    
-'apply borders
-    Range("A3:G3").Select
-    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
-    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
-    With Selection.Borders(xlEdgeLeft)
-        .LineStyle = xlContinuous
-        .ThemeColor = 1
-        .TintAndShade = -0.249977111117893
-        .Weight = xlThin
-    End With
-    With Selection.Borders(xlEdgeTop)
-        .LineStyle = xlContinuous
-        .ThemeColor = 1
-        .TintAndShade = -0.249977111117893
-        .Weight = xlThin
-    End With
-    With Selection.Borders(xlEdgeBottom)
-        .LineStyle = xlContinuous
-        .ThemeColor = 1
-        .TintAndShade = -0.249977111117893
-        .Weight = xlThin
-    End With
-    With Selection.Borders(xlEdgeRight)
-        .LineStyle = xlContinuous
-        .ThemeColor = 1
-        .TintAndShade = -0.249977111117893
-        .Weight = xlThin
-    End With
-    With Selection.Borders(xlInsideVertical)
-        .LineStyle = xlContinuous
-        .ThemeColor = 1
-        .TintAndShade = -0.249977111117893
-        .Weight = xlThin
-    End With
-    Selection.Borders(xlInsideHorizontal).LineStyle = xlNone
-    
-'Macros on
-    Call MacrosOn
+'Cleanup
+Range("B2").Value = ""
+Range("D2").Value = ""
+Application.CutCopyMode = False
+Call MacrosOn
 
 'Save immediately
-    ActiveWorkbook.Save
+ActiveWorkbook.Save
 
 End Sub
 
@@ -155,7 +43,7 @@ Sub plusSign()
 '///assigned to plus sign icon/////////////////////////////////////////////////////////////////////////////////////////////
 '///Calls the incrementor and then the WhichLine userform//////////////////////////////////////////////////////////////////
 
-Call increment
+Call thingy
 WhichLineDialog_LOTNUM.Show
 
 End Sub
@@ -168,51 +56,38 @@ Sub CopyLast()
 Call increment
 WhichLineDialog_LOTNUM.Show
 
+'Tell the thing how many extra copies to make past the first one
 Dim i As Integer
 Dim loopCount As Integer
 loopCount = Application.InputBox(Prompt:="How many more copies?", Type:=1)
 
+Dim lotInfo(5) As Variant
+
 'For loop that will run as many times as it is told to in the inputbox
-
 For i = 1 To loopCount
-'Copy up the last blend desc
-    Range("B3").Select
-    Selection.Copy
-    Range("B2").Select
-    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
-        :=False, Transpose:=False
-    Application.CutCopyMode = False
-
-'Copy up the last blend qty
-    Range("D3").Select
-    Selection.Copy
-    Range("D2").Select
-    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
-        :=False, Transpose:=False
-    Application.CutCopyMode = False
- 
-'Do the normal increment stuff
+    'Get all the info from the previous lot
+    lotInfo(0) = Range("B3").Value
+    lotInfo(1) = Range("D3").Value
+    lotInfo(2) = Range("Q3").Value
+    lotInfo(3) = Range("R3").Value
+    lotInfo(4) = Range("S3").Value
+    
+    'Put description and qty into the slot at the top
+    Range("B2").Value = lotInfo(0)
+    Range("D2").Value = lotInfo(1)
+    
+    'Do the normal increment stuff
     Call increment
-
-'Copy the line info
-    If Range("Q4") = "Hx" Then
-        Call horixFormat
-    ElseIf Range("Q4") = "Dm" Then
-        Call drumFormat
-    ElseIf Range("Q4") = "Totes" Then
-        Call totesFormat
-    ElseIf Range("Q4") = "Pails" Then
-        Call pailsFormat
-    ElseIf Range("Q4") = "Prod" Then
-        Call prodFormat
-    End If
- 
-'Copy the date
-    Range("R4:S4").Select
-    Selection.Copy
-    Range("R3:S3").Select
-    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
-        :=False, Transpose:=False
+    
+    'Put the Line, Run Date, and Day info into the top row
+    Range("Q3").Value = lotInfo(2)
+    Range("R3").Value = lotInfo(3)
+    Range("S3").Value = lotInfo(4)
+    
+    'Copy formatting from the previous lot
+    Range("A4:V4").Copy
+    Range("A3:V3").PasteSpecial Paste:=xlPasteFormats
+    
 
 Next i
 
@@ -306,5 +181,3 @@ Private Sub totesFormat()
     End With
     
 End Sub
-
-

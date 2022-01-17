@@ -60,14 +60,10 @@ Sub labelPrinter()
     ActiveWorkbook.FollowHyperlink Address:=labelPath, NewWindow:=True
     
     If answer = vbYes Then
-        Application.SendKeys "{LEFT}~", True
-        Application.SendKeys "{LEFT}~", True
         Application.SendKeys "^p", True
         Application.SendKeys labelCount, True
         Application.SendKeys "{Enter}", True
     Else
-        Application.SendKeys "{LEFT}~", True
-        Application.SendKeys "{LEFT}~", True
         Application.SendKeys "^p", True
     End If
     
@@ -86,5 +82,7 @@ Sub labelPrinter()
     
     'turn NumLock back on
     ToggleNumlock True
+    
+    Windows("Blending Lot Number Generator.xlsb").Activate
     
 End Sub

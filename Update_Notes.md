@@ -1,5 +1,9 @@
 # Update Notes
 
+### 1-17-2022
+ - Tremendously simplified the incrementor macro. 
+ - **CHANGED THE SEED NUMBER AND LOT NUMBER PROCESS SO NOW SEED NUMBER IS EQUAL TO THE ENDING OF THE LOT NUMBER, RATHER THAN TWO MORE** 
+
 ### 1-11-2022
  - Various trimming down of subroutines. Also added text box for documentation of the different macro-linked icons. 
 
