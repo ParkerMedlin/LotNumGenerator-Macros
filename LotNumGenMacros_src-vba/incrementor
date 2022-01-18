@@ -7,7 +7,7 @@ Call MacrosOff
 'make an array, grab lot info, insert it in the new row, timestamp it
 Dim batchInfo(4) As Variant
 
-batchInfo(0) = Range("A2").Value
+batchInfo(0) = "'" & Range("A2").Value
 batchInfo(1) = Range("B2").Value
 batchInfo(2) = Range("C2").Value
 batchInfo(3) = Range("D2").Value
@@ -22,20 +22,17 @@ Range("E3").Value = Now()
 'Copy play button and qty and arrow icon to new row
 Range("G4:V4").Select
 Selection.Copy
-Range("G3").Select
+Range("G3:V3").Select
 ActiveCell.PasteSpecial Paste:=xlPasteAll
 
 'Increment the seed number
 Range("G1").Value = Range("G1").Value + 1
 
-'Cleanup
+'Cleanup and save the workbook
 Range("B2").Value = ""
 Range("D2").Value = ""
 Application.CutCopyMode = False
 Call MacrosOn
-
-'Save immediately
-ActiveWorkbook.Save
 
 End Sub
 
@@ -43,8 +40,9 @@ Sub plusSign()
 '///assigned to plus sign icon/////////////////////////////////////////////////////////////////////////////////////////////
 '///Calls the incrementor and then the WhichLine userform//////////////////////////////////////////////////////////////////
 
-Call thingy
+Call increment
 WhichLineDialog_LOTNUM.Show
+ActiveWorkbook.Save
 
 End Sub
 
@@ -91,93 +89,8 @@ For i = 1 To loopCount
 
 Next i
 
-End Sub
-
-
-Private Sub drumFormat()
-'///What happens when you put in a Dm blend////////////////////////////////////////////////////////////////////////
-
-'put 'Dm' in the line cell
-    Range("Q3").Value = "Dm"
-
-'fill the row 3 cells yellow
-    Range("A3:U3").Select
-    With Selection.Interior
-        .Pattern = xlSolid
-        .PatternColorIndex = xlAutomatic
-        .ThemeColor = xlThemeColorAccent2
-        .TintAndShade = 0.599993896298105
-        .PatternTintAndShade = 0
-    End With
-  
-End Sub
-
-Private Sub horixFormat()
-'///What happens when you put in a Hx blend////////////////////////////////////////////////////////////////////////
-
-'put 'Hx' in the line cell
-    Range("Q3").Value = "Hx"
-
-'fill the row 3 cells green
-    Range("A3:U3").Select
-    With Selection.Interior
-        .Pattern = xlSolid
-        .PatternColorIndex = xlAutomatic
-        .ThemeColor = xlThemeColorAccent6
-        .TintAndShade = 0.799981688894314
-        .PatternTintAndShade = 0
-    End With
+Application.CutCopyMode = False
 
 End Sub
 
-Private Sub pailsFormat()
-'///What happens when you put in a pails blend/////////////////////////////////////////////////////////////////////
 
-'put 'Pails' in the line cell
-    Range("Q3").Value = "Pails"
-
-'fill the row 3 cells yellow
-    Range("A3:U3").Select
-    With Selection.Interior
-        .Pattern = xlSolid
-        .PatternColorIndex = xlAutomatic
-        .ThemeColor = xlThemeColorAccent4
-        .TintAndShade = 0.599993896298105
-        .PatternTintAndShade = 0
-    End With
-    
-End Sub
-
-Private Sub prodFormat()
-'///What happens when you put in a production blend///////////////////////////////////////////////////////////////
-
-'put 'Prod' in the line cell
-    Range("Q3").Value = "Prod"
-    Range("R3").Value = " - "
-    Range("S3").Value = " - "
-    
-    With Selection.Interior
-        .Pattern = xlNone
-        .TintAndShade = 0
-        .PatternTintAndShade = 0
-    End With
-    
-End Sub
-
-Private Sub totesFormat()
-'///What happens when you put in a totes blend////////////////////////////////////////////////////////////////////
-
-'put 'Totes' in the line cell
-    Range("Q3").Value = "Totes"
-
-'fill the row 3 cells yellow
-    Range("A3:U3").Select
-    With Selection.Interior
-        .Pattern = xlSolid
-        .PatternColorIndex = xlAutomatic
-        .ThemeColor = xlThemeColorAccent4
-        .TintAndShade = 0.599993896298105
-        .PatternTintAndShade = 0
-    End With
-    
-End Sub

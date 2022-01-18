@@ -1,5 +1,8 @@
 # Update Notes
 
+### 1-18-2022
+ - Made it so the format options from the line selector UserForm will put in the borders. Also moved the workbook saving to post-incrementor instead of right in the middle
+
 ### 1-17-2022
  - Tremendously simplified the incrementor macro. 
  - **CHANGED THE SEED NUMBER AND LOT NUMBER PROCESS SO NOW SEED NUMBER IS EQUAL TO THE ENDING OF THE LOT NUMBER, RATHER THAN TWO MORE** 
