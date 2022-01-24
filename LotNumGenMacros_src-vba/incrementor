@@ -1,3 +1,14 @@
+Sub plusSign()
+'///assigned to plus sign icon/////////////////////////////////////////////////////////////////////////////////////////////
+'///Calls the incrementor and then the WhichLine userform//////////////////////////////////////////////////////////////////
+
+Call increment
+WhichLineDialog_LOTNUM.Show
+ActiveWorkbook.Save
+Call copyLast
+
+End Sub
+
 Sub increment()
 '///Not assigned to anything///////////////////////////////////////////////////////////////////////////////////////////////
 '///Inserts a new line and handles all the formula re-populating + time-stamping + incrementing lot no/////////////////////
@@ -7,17 +18,23 @@ Call MacrosOff
 'make an array, grab lot info, insert it in the new row, timestamp it
 Dim batchInfo(4) As Variant
 
-batchInfo(0) = "'" & Range("A2").Value
-batchInfo(1) = Range("B2").Value
-batchInfo(2) = Range("C2").Value
-batchInfo(3) = Range("D2").Value
+batchInfo(0) = "'" & Range("A2").Value  'part number (convert the value to text so INDEX(MATCH()) still works)
+batchInfo(1) = Range("B2").Value 'blend desc
+batchInfo(2) = Range("C2").Value 'lot number
+batchInfo(3) = Range("D2").Value 'quantity
 Rows("3:3").Select
 Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromRightOrBelow
-Range("A3").Value = batchInfo(0)
-Range("B3").Value = batchInfo(1)
-Range("C3").Value = batchInfo(2)
-Range("D3").Value = batchInfo(3)
-Range("E3").Value = Now()
+Rows("3:3").Select
+    With Selection.Interior
+        .Pattern = xlNone
+        .TintAndShade = 0
+        .PatternTintAndShade = 0
+    End With
+Range("A3").Value = batchInfo(0) 'plug in part number
+Range("B3").Value = batchInfo(1) 'plug in blend desc
+Range("C3").Value = batchInfo(2) 'plug in lot number
+Range("D3").Value = batchInfo(3) 'plug in quantity
+Range("E3").Value = Now() 'timestamp
 
 'Copy play button and qty and arrow icon to new row
 Range("G4:V4").Select
@@ -28,65 +45,50 @@ ActiveCell.PasteSpecial Paste:=xlPasteAll
 'Increment the seed number
 Range("G1").Value = Range("G1").Value + 1
 
-'Cleanup and save the workbook
+'Cleanup
 Range("B2").Value = ""
 Range("D2").Value = ""
+Range("A3").Font.Italic = False
 Application.CutCopyMode = False
 Call MacrosOn
 
 End Sub
 
-Sub plusSign()
-'///assigned to plus sign icon/////////////////////////////////////////////////////////////////////////////////////////////
-'///Calls the incrementor and then the WhichLine userform//////////////////////////////////////////////////////////////////
-
-Call increment
-WhichLineDialog_LOTNUM.Show
-ActiveWorkbook.Save
-
-End Sub
-
-
-Sub CopyLast()
+Sub copyLast()
 '///Assigned to square>arrow>circle icon on Lot Number Generator sheet/////////////////////////////////////////////////////
 '///Horix and Drum lot numbers any% speedrun///////////////////////////////////////////////////////////////////////////////
-
-Call increment
-WhichLineDialog_LOTNUM.Show
 
 'Tell the thing how many extra copies to make past the first one
 Dim i As Integer
 Dim loopCount As Integer
-loopCount = Application.InputBox(Prompt:="How many more copies?", Type:=1)
+loopCount = Application.InputBox(Prompt:="If additional copies of this lot number are needed, type in how many are needed below. If no other copies are needed, just type in 0.", Type:=1)
 
 Dim lotInfo(5) As Variant
 
 'For loop that will run as many times as it is told to in the inputbox
 For i = 1 To loopCount
     'Get all the info from the previous lot
-    lotInfo(0) = Range("B3").Value
-    lotInfo(1) = Range("D3").Value
-    lotInfo(2) = Range("Q3").Value
-    lotInfo(3) = Range("R3").Value
-    lotInfo(4) = Range("S3").Value
+    lotInfo(0) = Range("B3").Value 'description
+    lotInfo(1) = Range("D3").Value 'lot quantity
+    lotInfo(2) = Range("Q3").Value 'line
+    lotInfo(3) = Range("R3").Value 'run date
+    lotInfo(4) = Range("S3").Value 'run day
     
     'Put description and qty into the slot at the top
-    Range("B2").Value = lotInfo(0)
-    Range("D2").Value = lotInfo(1)
+    Range("B2").Value = lotInfo(0) 'plug in desc
+    Range("D2").Value = lotInfo(1) 'plug in qty
     
     'Do the normal increment stuff
     Call increment
     
     'Put the Line, Run Date, and Day info into the top row
-    Range("Q3").Value = lotInfo(2)
-    Range("R3").Value = lotInfo(3)
-    Range("S3").Value = lotInfo(4)
+    Range("Q3").Value = lotInfo(2) 'plug in line
+    Range("R3").Value = lotInfo(3) 'plug in run date
+    Range("S3").Value = lotInfo(4) 'plug in run day
     
     'Copy formatting from the previous lot
     Range("A4:V4").Copy
     Range("A3:V3").PasteSpecial Paste:=xlPasteFormats
-    
-
 Next i
 
 Application.CutCopyMode = False

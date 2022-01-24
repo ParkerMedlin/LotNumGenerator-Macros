@@ -65,8 +65,8 @@ Private Sub drumButton_Click()
     End With
     With Selection.Borders(xlEdgeRight)
         .LineStyle = xlContinuous
-        .ThemeColor = 1
-        .TintAndShade = -0.249946592608417
+        .ColorIndex = xlAutomatic
+        .TintAndShade = 0
         .Weight = xlThin
     End With
     With Selection.Borders(xlInsideVertical)
@@ -144,8 +144,8 @@ Private Sub horixButton_Click()
     End With
     With Selection.Borders(xlEdgeRight)
         .LineStyle = xlContinuous
-        .ThemeColor = 1
-        .TintAndShade = -0.249946592608417
+        .ColorIndex = xlAutomatic
+        .TintAndShade = 0
         .Weight = xlThin
     End With
     With Selection.Borders(xlInsideVertical)
@@ -154,6 +154,8 @@ Private Sub horixButton_Click()
         .TintAndShade = -0.249946592608417
         .Weight = xlThin
     End With
+
+    
 
 End Sub
 
@@ -223,8 +225,8 @@ Private Sub pailsButton_Click()
     End With
     With Selection.Borders(xlEdgeRight)
         .LineStyle = xlContinuous
-        .ThemeColor = 1
-        .TintAndShade = -0.249946592608417
+        .ColorIndex = xlAutomatic
+        .TintAndShade = 0
         .Weight = xlThin
     End With
     With Selection.Borders(xlInsideVertical)
@@ -275,8 +277,8 @@ Private Sub prodButton_Click()
     End With
     With Selection.Borders(xlEdgeRight)
         .LineStyle = xlContinuous
-        .ThemeColor = 1
-        .TintAndShade = -0.249946592608417
+        .ColorIndex = xlAutomatic
+        .TintAndShade = 0
         .Weight = xlThin
     End With
     With Selection.Borders(xlInsideVertical)
@@ -354,8 +356,8 @@ Private Sub totesButton_Click()
     End With
     With Selection.Borders(xlEdgeRight)
         .LineStyle = xlContinuous
-        .ThemeColor = 1
-        .TintAndShade = -0.249946592608417
+        .ColorIndex = xlAutomatic
+        .TintAndShade = 0
         .Weight = xlThin
     End With
     With Selection.Borders(xlInsideVertical)

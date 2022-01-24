@@ -1,7 +1,13 @@
 # Update Notes
 
+### 1-24-2022
+ - Added the copyLast sub to the plus sign instead of having a separate button
+ - Added logic to the blendsheet printing macro so that it keeps jumping to next lot and printing blend sheet for that one too as long as the line and the blend desc are matching 
+ - Added similar logic to the issue sheet printing macro as well 
+ 
 ### 1-18-2022
  - Made it so the format options from the line selector UserForm will put in the borders. Also moved the workbook saving to post-incrementor instead of right in the middle
+ - Updated the label printer so it goes back to the lot num gen workbook after printing labels
 
 ### 1-17-2022
  - Tremendously simplified the incrementor macro. 

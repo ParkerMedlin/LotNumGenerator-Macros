@@ -56,15 +56,25 @@ Sub labelPrinter()
     
     Dim answer As Integer
     answer = MsgBox("Print the pre-calculated number of labels for this lot?", vbQuestion + vbYesNo + vbDefaultButton2, "Label Quantity")
-    
-    ActiveWorkbook.FollowHyperlink Address:=labelPath, NewWindow:=True
-    
+           
     If answer = vbYes Then
+        ActiveWorkbook.FollowHyperlink Address:=labelPath, NewWindow:=True
+        Delay (2)
         Application.SendKeys "^p", True
         Application.SendKeys labelCount, True
         Application.SendKeys "{Enter}", True
+        Delay (1)
+        Application.SendKeys "%{TAB}", True
     Else
+        Dim userInputCount As Integer
+        userInputCount = InputBox("How many labels?", "Labels", 1)
+        ActiveWorkbook.FollowHyperlink Address:=labelPath, NewWindow:=True
+        Delay (2)
         Application.SendKeys "^p", True
+        Application.SendKeys userInputCount, True
+        Application.SendKeys "{Enter}", True
+        Delay (1)
+        Application.SendKeys "%{TAB}", True
     End If
     
     'color cell gray

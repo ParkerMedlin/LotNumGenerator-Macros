@@ -1,21 +1,17 @@
-Private Sub TextBox1_Change()
-
-End Sub
-
 Private Sub Worksheet_SelectionChange(ByVal target As Range)
 
 If InStr(1, (Range("AA1").Value), "On") > 0 Then
     If Selection.Count = 1 Then
-        If Not Intersect(target, Range("$I:$I")) Is Nothing Then
-            Call IssueSheetGen
+        If Not Intersect(target, Range("$I3:$I400")) Is Nothing Then
+            Call issueSheetGen
         End If
-        If Not Intersect(target, Range("$K:$K")) Is Nothing Then
+        If Not Intersect(target, Range("$K3:$K400")) Is Nothing Then
             Call blndSheetGen
         End If
-        If Not Intersect(target, Range("$M:$M")) Is Nothing Then
+        If Not Intersect(target, Range("$M3:$M400")) Is Nothing Then
             Call pickSheetGen
         End If
-        If Not Intersect(target, Range("$O:$O")) Is Nothing Then
+        If Not Intersect(target, Range("$O3:$O400")) Is Nothing Then
             Call labelPrinter
         End If
     End If
