@@ -1,5 +1,8 @@
 # Update Notes
 
+### 1-25-2022
+ - Resolved issue where the issue sheet multiprint was triggering for drum batch of same blend as Hx batches below it. Just made criteria more specific so now it checks for line as well as blend and run date.  
+
 ### 1-24-2022
  - Added the copyLast sub to the plus sign instead of having a separate button
  - Added logic to the blendsheet printing macro so that it keeps jumping to next lot and printing blend sheet for that one too as long as the line and the blend desc are matching 

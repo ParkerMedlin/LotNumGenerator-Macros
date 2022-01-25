@@ -13,6 +13,7 @@ Sub issueSheetGen()
     blendInfo(1) = ActiveCell.Offset(0, -7).Value 'blend Description
     blendInfo(2) = ActiveCell.Offset(0, -5).Value 'quantity
     blendInfo(3) = ActiveCell.Offset(0, 9).Value  'run date
+    blendInfo(4) = ActiveCell.Offset(0, 8).Value  'line
         
     'Declare array for lot numbers and populate it
     Dim lotNumbers(9) As Variant
@@ -28,41 +29,43 @@ Sub issueSheetGen()
        .PatternTintAndShade = 0
     End With
     
+    'Store the line value in array too
+    Select Case ActiveCell.Offset(0, 8).Value
+    Case "Hx"
+        blendInfo(5) = "Horix"
+    Case "Dm"
+        blendInfo(5) = "Drums"
+    Case "Prod"
+        blendInfo(5) = ""
+    Case "Totes"
+        blendInfo(5) = "Totes"
+    Case "Pails"
+        blendInfo(5) = "Pails"
+    End Select
+    
     'for loop to set all the subsequent lot numbers
     Dim i As Integer
     i = 1
     For i = 1 To 9
-        If blendInfo(0) = ActiveCell.Offset(-1, -8) Then
-            If blendInfo(3) = ActiveCell.Offset(-1, 9) Then
-                lotNumbers(i) = ActiveCell.Offset(-1, -6)
-                lotQuantities(i) = ActiveCell.Offset(-1, -5)
-                ActiveCell.Offset(-1, 0).Select
-                With Selection.Interior
-                    .Pattern = xlSolid
-                    .PatternColorIndex = xlAutomatic
-                    .ThemeColor = xlThemeColorDark1
-                    .TintAndShade = -0.249977111117893
-                   .PatternTintAndShade = 0
-                End With
-                Selection.Activate
+        If blendInfo(4) = ActiveCell.Offset(-1, 8) Then
+            If blendInfo(0) = ActiveCell.Offset(-1, -8) Then
+                If blendInfo(3) = ActiveCell.Offset(-1, 9) Then
+                    lotNumbers(i) = ActiveCell.Offset(-1, -6)
+                    lotQuantities(i) = ActiveCell.Offset(-1, -5)
+                    ActiveCell.Offset(-1, 0).Select
+                    With Selection.Interior
+                        .Pattern = xlSolid
+                        .PatternColorIndex = xlAutomatic
+                        .ThemeColor = xlThemeColorDark1
+                        .TintAndShade = -0.249977111117893
+                       .PatternTintAndShade = 0
+                    End With
+                    Selection.Activate
+                End If
             End If
         End If
     Next i
     
-    'Store the line value in array too
-    Select Case ActiveCell.Offset(0, 8).Value
-    Case "Hx"
-        blendInfo(4) = "Horix"
-    Case "Dm"
-        blendInfo(4) = "Drums"
-    Case "Prod"
-        blendInfo(4) = ""
-    Case "Totes"
-        blendInfo(4) = "Totes"
-    Case "Pails"
-        blendInfo(4) = "Pails"
-    End Select
-
     'Open the blend issue sheet
     Workbooks.Open Filename:= _
         "G:\Blending\02 Blending Issue Sheet\NOT_Blending_Issue_Sheet.xlsb"
@@ -73,7 +76,7 @@ Sub issueSheetGen()
         Range("D8").Value = blendInfo(1) 'plug in blend Description
         Range("B12").Value = blendInfo(2) 'plug in quantity
         Range("D4").Value = blendInfo(3) 'plug in run date
-        Range("D6").Value = blendInfo(4) 'plug in line name
+        Range("D6").Value = blendInfo(5) 'plug in line name
         'lot numbers and quantities
         Range("B10").Value = lotNumbers(0)
         Range("B12").Value = lotQuantities(0)
@@ -95,6 +98,7 @@ Sub issueSheetGen()
         Range("F31").Value = lotQuantities(8)
     End With
     
+    Windows(src).Activate
     Call MacrosOn
  
     'Return to issue sheet
