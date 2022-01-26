@@ -1,5 +1,8 @@
 # Update Notes
 
+### 1-26-2022
+ - Light edits to the increment sub to eliminate formulas in the labelqty and blendsheetqty columns
+
 ### 1-25-2022
  - Resolved issue where the issue sheet multiprint was triggering for drum batch of same blend as Hx batches below it. Just made criteria more specific so now it checks for line as well as blend and run date.  
 

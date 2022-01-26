@@ -176,24 +176,26 @@ On Error GoTo JustInCase
                 End With
                 If blendInfo(3) = ActiveCell.Offset(-1, -9) Then
                     If blendInfo(4) = ActiveCell.Offset(-1, 7) Then
-                        Dim moreInfo(4) As Variant 'another array to hold info for next line up
-                        ActiveCell.Offset(-1, 0).Select 'hit up the next line if the blend desc's match
-                        Selection.Activate
-                        moreInfo(0) = ActiveCell.Value         'qty
-                        moreInfo(1) = ActiveCell.Offset(0, -8) 'lot number
-                        moreInfo(2) = ActiveCell.Offset(0, 6)  'line
-                        moreInfo(3) = ActiveCell.Offset(0, -9) 'blend desc
-                        Windows(blndSht).Activate
-                        'Put the lot qty and lot num into the sheet and print
-                        Cells.Find(What:="Theory Gallons", After:=ActiveCell, LookIn:=xlFormulas2 _
-                            , LookAt:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
-                            MatchCase:=False, SearchFormat:=False).Activate
-                        ActiveCell.Offset(1, 0).Value = moreInfo(0) 'qty
-                        Cells.Find(What:="Lot Number:", After:=ActiveCell, LookIn:=xlFormulas2 _
-                            , LookAt:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
-                            MatchCase:=False, SearchFormat:=False).Activate
-                        ActiveCell.Offset(0, 1).Value = moreInfo(1) 'lot no
-                        ActiveSheet.PrintOut
+                        If blendInfo(2) = ActiveCell.Offset(-1, 6) Then
+                            Dim moreInfo(4) As Variant 'another array to hold info for next line up
+                            ActiveCell.Offset(-1, 0).Select 'hit up the next line if the blend desc's match
+                            Selection.Activate
+                            moreInfo(0) = ActiveCell.Value         'qty
+                            moreInfo(1) = ActiveCell.Offset(0, -8) 'lot number
+                            moreInfo(2) = ActiveCell.Offset(0, 6)  'line
+                            moreInfo(3) = ActiveCell.Offset(0, -9) 'blend desc
+                            Windows(blndSht).Activate
+                            'Put the lot qty and lot num into the sheet and print
+                            Cells.Find(What:="Theory Gallons", After:=ActiveCell, LookIn:=xlFormulas2 _
+                                , LookAt:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
+                                MatchCase:=False, SearchFormat:=False).Activate
+                            ActiveCell.Offset(1, 0).Value = moreInfo(0) 'qty
+                            Cells.Find(What:="Lot Number:", After:=ActiveCell, LookIn:=xlFormulas2 _
+                                , LookAt:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
+                                MatchCase:=False, SearchFormat:=False).Activate
+                            ActiveCell.Offset(0, 1).Value = moreInfo(1) 'lot no
+                            ActiveSheet.PrintOut
+                        End If
                     End If
                 End If
             Next i
