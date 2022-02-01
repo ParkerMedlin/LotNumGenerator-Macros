@@ -1,3 +1,11 @@
+Public Function RoundUp(ByVal Value As Double)
+    If Int(Value) = Value Then
+        RoundUp = Value
+    Else
+        RoundUp = Int(Value) + 1
+    End If
+End Function
+
 Sub plusSign()
 '///assigned to plus sign icon/////////////////////////////////////////////////////////////////////////////////////////////
 '///Calls the incrementor and then the WhichLine userform//////////////////////////////////////////////////////////////////
@@ -5,6 +13,7 @@ Sub plusSign()
 Call increment
 WhichLineDialog_LOTNUM.Show
 Call copyLast
+Range("J3").Select
 
 End Sub
 
@@ -15,12 +24,13 @@ Sub increment()
 Call MacrosOff
 
 'make an array, grab lot info, insert it in the new row, timestamp it
-Dim batchInfo(4) As Variant
+Dim batchInfo(5) As Variant
 
 batchInfo(0) = "'" & Range("A2").Value  'part number (convert the value to text so INDEX(MATCH()) still works)
 batchInfo(1) = Range("B2").Value 'blend desc
 batchInfo(2) = Range("C2").Value 'lot number
 batchInfo(3) = Range("D2").Value 'quantity
+batchInfo(4) = RoundUp((batchInfo(3) / 250)) * 2 'label quantity
 Rows("3:3").Select
 Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromRightOrBelow
 Rows("3:3").Select
@@ -33,13 +43,16 @@ Range("A3").Value = batchInfo(0) 'plug in part number
 Range("B3").Value = batchInfo(1) 'plug in blend desc
 Range("C3").Value = batchInfo(2) 'plug in lot number
 Range("D3").Value = batchInfo(3) 'plug in quantity
-Range("E3").Value = Now() 'timestamp
 
-'Copy play button and qty and arrow icon to new row
+'Copy all the formatting and formulae for I:V to new row
 Range("G4:V4").Select
 Selection.Copy
 Range("G3:V3").Select
 ActiveCell.PasteSpecial Paste:=xlPasteAll
+
+Range("K3").Value = batchInfo(3) 'plug in quantity in blend sheet cell
+Range("O3").Value = batchInfo(4) 'plug in the label quantity
+Range("E3").Value = Now() 'timestamp
 
 'Increment the seed number
 Range("G1").Value = Range("G1").Value + 1

@@ -14,7 +14,6 @@ Sub Delay(Finish As Long)
 End Sub
 
 
-
 Sub labelPrinter()
 '///Prints labels for the row selected/////////////////////////////////////////////////////////////////////////////////////
 '///Assigned to row M:M////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -30,7 +29,12 @@ Sub labelPrinter()
     'select the correct filepath for the barTender document based on which protections are needed
     labelPath = "C:\OD\Kinpak, Inc\Blending - Documents\01 Spreadsheet Tools\Blending Label Templates & BTdatabases\BlendInventoryLabels\"
     protecc = ActiveCell.Offset(0, -1).Value
-    labelPath = labelPath & protecc & ".btw"
+    insideValue = ActiveCell.Offset(0, 5).Value
+    If insideValue = "INSIDE" Then
+        labelPath = labelPath & protecc & "-inside.btw"
+    Else
+        labelPath = labelPath & protecc & ".btw"
+    End If
 
     'number of labels to be made
     labelCount = ActiveCell.Value
@@ -53,10 +57,10 @@ Sub labelPrinter()
 
     'go back to blend lot num generator workbook and determine label qty
     Workbooks("Blending Lot Number Generator.xlsb").Activate
-    
+
     Dim answer As Integer
     answer = MsgBox("Print the pre-calculated number of labels for this lot?", vbQuestion + vbYesNo + vbDefaultButton2, "Label Quantity")
-           
+
     If answer = vbYes Then
         ActiveWorkbook.FollowHyperlink Address:=labelPath, NewWindow:=True
         Delay (2)
@@ -86,13 +90,12 @@ Sub labelPrinter()
         .TintAndShade = -0.249977111117893
        .PatternTintAndShade = 0
     End With
-    
+
     'macros on
     Call MacrosOn
     
     'turn NumLock back on
     ToggleNumlock True
-    
     Windows("Blending Lot Number Generator.xlsb").Activate
     
 End Sub

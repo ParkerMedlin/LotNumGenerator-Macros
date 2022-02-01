@@ -239,37 +239,25 @@ Sub pickSheetGen()
     Call MacrosOff
 
     'Set the way back to the current workbook
-    Dim src As String
-    src = ActiveWorkbook.Name
     Dim lotInfo(3) As Variant
     lotInfo(0) = ActiveCell.Offset(0, -12)
     lotInfo(1) = ActiveCell.Offset(0, -11)
     lotInfo(2) = ActiveCell.Offset(0, -10)
-
-    'Open the blending schedule
-    Workbooks.Open Filename:= _
-        "C:\OD\Kinpak, Inc\Blending - Documents\03 Projects\Blending Schedule\Blending-Schedule\Blending Schedule_1.3.xlsb"
 
     'Go to blend schedule and filter [BlendPN] by the PN copied from Lot Number Gen
     Worksheets("pickSheetTable").Visible = True
     Worksheets("pickSheetTable").Activate
     ActiveSheet.ListObjects("pickSheetTable_query").Range.AutoFilter Field:=1, Criteria1:= _
             lotInfo(0)
-
-    'Hide columns
-    Range("A:B").Select
-    Selection.EntireColumn.Hidden = True
-        
-    'Insert row, write in Date and Time fields
+       
+    'Insert row, write in Date and Time fields, format it, then print
     Rows("1:1").Select
     Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromLeftOrAbove
     Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromLeftOrAbove
     Range("C1").Select
     ActiveCell.FormulaR1C1 = "Required chemicals for " & lotInfo(0) + " " + lotInfo(1) + ", Lot " + lotInfo(2)
     Range("C2").Select
-    ActiveCell.FormulaR1C1 = "Date: " & Now()
-   
-    'format the stuff
+    ActiveCell.FormulaR1C1 = "Printed on " & Now()
     Range("C1:C2").Select
     With Selection.Font
         .Name = "Calibri"
@@ -285,21 +273,17 @@ Sub pickSheetGen()
         .ThemeFont = xlThemeFontMinor
     End With
     Selection.HorizontalAlignment = xlLeft
-    
+    Worksheets("pickSheetTable").PageSetup.Orientation = xlLandscape
     ActiveSheet.PrintOut
 
-    'Clear filter
-    Call clearChemsToCheckFilter1
-   
-    'Show columns again
-    Range("A:B").Select
-    Selection.EntireColumn.Hidden = False
-    
+    'Cleanup and hide worksheet
+    Rows("1").Delete
+    Rows("1").Delete
+    ActiveSheet.ListObjects("pickSheetTable_query").Range.AutoFilter Field:=1
     Worksheets("pickSheetTable").Visible = False
-    Sheets("BlendThese").Activate
-
+    Sheets(1).Activate
+    
     'MacrosOn in Lot Number Gen
-    Windows(src).Activate
     ActiveCell.Select
     With Selection.Interior
         .Pattern = xlSolid

@@ -1,5 +1,10 @@
 # Update Notes
 
+### 2-1-2022
+ - Took out the blendData query that was feeding the dropdown search
+ - Added bom.master query, chemLocations query, pickSheetTable query
+ - Altered pickSheetGen sub so that it points to lotnumgen sheet no longer to the blending schedule
+
 ### 1-26-2022
  - Light edits to the increment sub to eliminate formulas in the labelqty and blendsheetqty columns
  - Fixed math error in labelqty calculation
