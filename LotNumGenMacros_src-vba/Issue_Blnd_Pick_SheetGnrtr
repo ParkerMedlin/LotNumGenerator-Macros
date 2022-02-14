@@ -5,7 +5,7 @@ Sub issueSheetGen()
     'Set the way back to the current workbook and turn off cell-selection-trigger macros
     Dim src As String
     src = ActiveWorkbook.Name
-    Call MacrosOff
+    Call macrosOff
 
     'Declare array for blend info and populate it
     Dim blendInfo(6) As Variant
@@ -99,7 +99,7 @@ Sub issueSheetGen()
     End With
     
     Windows(src).Activate
-    Call MacrosOn
+    Call macrosOn
  
     'Return to issue sheet
     Windows("NOT_Blending_Issue_Sheet.xlsb").Activate
@@ -113,7 +113,7 @@ Sub blndSheetGen()
 
 On Error GoTo JustInCase
     
-    Call MacrosOff
+    Call macrosOff
     
     'String for current workbook name
     Dim src As String
@@ -211,7 +211,7 @@ On Error GoTo JustInCase
     End Select
     
     Windows(src).Activate
-    Call MacrosOn
+    Call macrosOn
     
 Done: Exit Sub
 
@@ -236,7 +236,7 @@ Sub pickSheetGen()
 '///Opens the blend schedule filters ChemsToCheck to the requirements of the blend in question/////////////////////////////
 
     'MacrosOff
-    Call MacrosOff
+    Call macrosOff
 
     'Set the way back to the current workbook
     Dim lotInfo(3) As Variant
@@ -293,6 +293,6 @@ Sub pickSheetGen()
        .PatternTintAndShade = 0
     End With
     
-    Call MacrosOn
+    Call macrosOn
     
 End Sub

@@ -24,17 +24,12 @@ Sub labelPrinter()
     Dim labelInfo(4) As Variant
 
     'macros off
-    Call MacrosOff
+    Call macrosOff
 
     'select the correct filepath for the barTender document based on which protections are needed
     labelPath = "C:\OD\Kinpak, Inc\Blending - Documents\01 Spreadsheet Tools\Blending Label Templates & BTdatabases\BlendInventoryLabels\"
     protecc = ActiveCell.Offset(0, -1).Value
-    insideValue = ActiveCell.Offset(0, 5).Value
-    If insideValue = "INSIDE" Then
-        labelPath = labelPath & protecc & "-inside.btw"
-    Else
-        labelPath = labelPath & protecc & ".btw"
-    End If
+    labelPath = labelPath & protecc & ".btw"
 
     'number of labels to be made
     labelCount = ActiveCell.Value
@@ -92,7 +87,7 @@ Sub labelPrinter()
     End With
 
     'macros on
-    Call MacrosOn
+    Call macrosOn
     
     'turn NumLock back on
     ToggleNumlock True

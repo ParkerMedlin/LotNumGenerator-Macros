@@ -21,7 +21,7 @@ Sub increment()
 '///Not assigned to anything///////////////////////////////////////////////////////////////////////////////////////////////
 '///Inserts a new line and handles all the formula re-populating + time-stamping + incrementing lot no/////////////////////
 
-Call MacrosOff
+Call macrosOff
 
 'make an array, grab lot info, insert it in the new row, timestamp it
 Dim batchInfo(5) As Variant
@@ -62,7 +62,7 @@ Range("B2").Value = ""
 Range("D2").Value = ""
 Range("A3").Font.Italic = False
 Application.CutCopyMode = False
-Call MacrosOn
+Call macrosOn
 
 End Sub
 

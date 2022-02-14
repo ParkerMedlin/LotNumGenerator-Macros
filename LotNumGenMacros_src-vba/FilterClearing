@@ -6,18 +6,6 @@ Sub clearfilter()
     
 End Sub
 
-Sub clearFilterAndReturn()
-'///Assigned to the black arrow on Lot Number Generator sheet//////////////////////////////////////////////////////////////
-'///clears the filter applied by lookup macro from blend schedule and returns you to the blending schedule/////////////////
-
-'clear the filter
-    ActiveSheet.Range("$A$1:$A$704").AutoFilter Field:=1
-    
-'return to the blending schedule
-    Workbooks("Blending Schedule_1.3").Activate
-    
-End Sub
-
 Sub clearChemsToCheckFilter1()
 '///Assigned to cell N1////////////////////////////////////////////////////////////////////////////////////////////////////
 '///Clears the filter only for [BlendPN], also sets M1 to blank////////////////////////////////////////////////////////////
@@ -27,15 +15,4 @@ Sub clearChemsToCheckFilter1()
    Rows.EntireRow("1:1").Delete
    Range("M1").Value = ""
  
-End Sub
-
-Sub clearLotNumSearch()
-'///Assigned to arrow on the BI_BR sheet///////////////////////////////////////////////////////////////////////////////////
-'///Assigned to cell N1////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    ActiveSheet.ListObjects("SageLotNumbers").Range.AutoFilter Field:=1
-    ActiveSheet.ListObjects("SageLotNumbers").Range.AutoFilter Field:=8
-    Sheets("Lot Number Generator").Activate
-
-
 End Sub

@@ -1,15 +1,65 @@
-Sub MacrosOn()
-'///Assigned to "On" cell//////////////////////////////////////////////////////////////////////////////////////////////////
-'///Turns on Macros////////////////////////////////////////////////////////////////////////////////////////////////////////
+Sub macrosOnOff()
 
+    ActiveSheet.Shapes.Range(Array("powerButton")).Select
+    
+    
+        If Range("AA1").Value = "On" Then
+                Call macrosOff
+                With Selection.ShapeRange
+                    With .Line
+                        .Visible = msoTrue
+                        .ForeColor.ObjectThemeColor = msoThemeColorText1
+                        .ForeColor.TintAndShade = 0
+                        .ForeColor.Brightness = 0.5
+                        .Transparency = 0
+                    End With
+                    With .Fill
+                        .Visible = msoTrue
+                        .ForeColor.ObjectThemeColor = msoThemeColorBackground1
+                        .ForeColor.TintAndShade = 0
+                        .ForeColor.Brightness = 0.75
+                        .Transparency = 0
+                        .Solid
+                    End With
+                End With
+        Else
+                Call macrosOn
+                With Selection.ShapeRange
+                    With .Fill
+                        .Visible = msoTrue
+                        .ForeColor.RGB = RGB(146, 208, 80)
+                        .Transparency = 0
+                        .Solid
+                    End With
+                    With .Line
+                        .Visible = msoTrue
+                        .ForeColor.ObjectThemeColor = msoThemeColorText1
+                        .ForeColor.TintAndShade = 0
+                        .ForeColor.Brightness = 0
+                        .Transparency = 0
+                    End With
+            End With
+        End If
+        
+        Range("B2").Select
+        
+End Sub
+
+
+
+Sub macrosOn()
+'///Assigned to "On" cell on various sheets////////////////////////////////////////////////////////////////////////////////
+'///Turns on Macros////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     Range("AA1").Value = "On"
     
 End Sub
 
-Sub MacrosOff()
-'///Assigned to "Off" cell/////////////////////////////////////////////////////////////////////////////////////////////////
+
+Sub macrosOff()
+'///Assigned to "Off" cell on various sheets///////////////////////////////////////////////////////////////////////////////
 '///Turns off Macros///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    Range("AA1").Value = "Off"
+    Range("AA1").Value = ""
     
 End Sub

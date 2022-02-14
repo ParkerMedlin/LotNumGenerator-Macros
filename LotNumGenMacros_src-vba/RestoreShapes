@@ -1,0 +1,29 @@
+Sub shapeRestore()
+'///restores the shape of icons if they get stretched out
+
+    ActiveSheet.Shapes.Range(Array("IncButton")).Select
+    Selection.ShapeRange.LockAspectRatio = msoFalse
+    Selection.ShapeRange.Height = 32.4
+    Selection.ShapeRange.Width = 32.4
+    
+    ActiveSheet.Shapes.Range(Array("PowerButton")).Select
+    Selection.ShapeRange.LockAspectRatio = msoFalse
+    Selection.ShapeRange.Height = 48.96
+    Selection.ShapeRange.Width = 48.96
+    
+    ActiveSheet.Shapes.Range(Array("ClearFilterButton")).Select
+    Selection.ShapeRange.LockAspectRatio = msoFalse
+    Selection.ShapeRange.Height = 32.4
+    Selection.ShapeRange.Width = 32.4
+    
+    ActiveSheet.Shapes.Range(Array("RefreshButton")).Select
+    Selection.ShapeRange.LockAspectRatio = msoFalse
+    Selection.ShapeRange.Height = 32.4
+    Selection.ShapeRange.Width = 32.4
+    
+    ActiveSheet.Shapes.Range(Array("DocBox")).Select
+    Selection.ShapeRange.LockAspectRatio = msoFalse
+    Selection.ShapeRange.Height = 206.64
+    Selection.ShapeRange.Width = 364.32
+
+End Sub

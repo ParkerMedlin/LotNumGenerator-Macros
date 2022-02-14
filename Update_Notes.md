@@ -1,5 +1,15 @@
 # Update Notes
 
+### 2-14-2022
+ - Added a macro to resize the shapes if they get stretched. Linked to $AK1
+
+### 2-8-2022
+ - Got rid of MacrosOn/MacrosOff cells. Moved those subs to power button icon.
+ - Added another sub to attach to my interface button.
+
+### 2-7-2022
+ - Changed Hx, Dm, Pails, & Totes button subs so that they grab the date from blending schedule instead of  
+
 ### 2-1-2022
  - Took out the blendData query that was feeding the dropdown search
  - Added bom.master query, chemLocations query, pickSheetTable query

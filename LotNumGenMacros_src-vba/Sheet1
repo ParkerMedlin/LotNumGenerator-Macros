@@ -14,21 +14,11 @@ If InStr(1, (Range("AA1").Value), "On") > 0 Then
         If Not Intersect(target, Range("$O3:$O400")) Is Nothing Then
             Call labelPrinter
         End If
+        If Not Intersect(target, Range("$AK1")) Is Nothing Then
+            Call shapeRestore
+        End If
     End If
 End If
 
-
-'--------------------------------------------------------------------
-
-'Macros On
-If Selection.Count = 1 Then
-    If Not Intersect(target, Range("$W$1")) Is Nothing Then
-        Call MacrosOn
-    End If
-'Macros Off
-    If Not Intersect(target, Range("$X$1")) Is Nothing Then
-        Call MacrosOff
-    End If
-End If
 
 End Sub
