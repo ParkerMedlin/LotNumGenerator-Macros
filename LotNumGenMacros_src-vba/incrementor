@@ -1,3 +1,4 @@
+
 Public Function RoundUp(ByVal Value As Double)
     If Int(Value) = Value Then
         RoundUp = Value
@@ -12,25 +13,40 @@ Sub plusSign()
 
 Call increment
 WhichLineDialog_LOTNUM.Show
-Call copyLast
-Range("J3").Select
-
+If Range("Z1").Value = "Cancelled" Then
+    Range("Z1").ClearContents
+    Range("J3").Select
+Else
+    Call copyLast
+    Range("J3").Select
+End If
 End Sub
 
 Sub increment()
 '///Not assigned to anything///////////////////////////////////////////////////////////////////////////////////////////////
 '///Inserts a new line and handles all the formula re-populating + time-stamping + incrementing lot no/////////////////////
 
-Call macrosOff
-
 'make an array, grab lot info, insert it in the new row, timestamp it
-Dim batchInfo(5) As Variant
-
-batchInfo(0) = "'" & Range("A2").Value  'part number (convert the value to text so INDEX(MATCH()) still works)
+Call macrosOff
+Dim batchInfo(10) As Variant
+batchInfo(0) = Range("A2").Value  'part number (convert the value to text so INDEX(MATCH()) still works)
 batchInfo(1) = Range("B2").Value 'blend desc
 batchInfo(2) = Range("C2").Value 'lot number
 batchInfo(3) = Range("D2").Value 'quantity
 batchInfo(4) = RoundUp((batchInfo(3) / 250)) * 2 'label quantity
+batchInfo(5) = RoundUp((batchInfo(3) / 250)) 'tote quantity
+
+Dim toteWashFactor As Double, blendVarTime As Double, blendFixedTime As Double
+toteWashTime = WorksheetFunction.Index(Sheets("BlndCats").Columns("D:D"), Application.Match(batchInfo(0), Sheets("BlndCats").Columns("A:A"), 0))
+blendVarTime = WorksheetFunction.Index(Sheets("BlndCats").Columns("E:E"), Application.Match(batchInfo(0), Sheets("BlndCats").Columns("A:A"), 0))
+blendFixedTime = WorksheetFunction.Index(Sheets("BlndCats").Columns("F:F"), Application.Match(batchInfo(0), Sheets("BlndCats").Columns("A:A"), 0))
+
+batchInfo(6) = batchInfo(5) * toteWashTime 'time needed to wash totes
+batchInfo(7) = batchInfo(3) * blendVarTime 'estimated VARIABLE time for just blending
+batchInfo(8) = blendFixedTime
+batchInfo(9) = (batchInfo(6) + batchInfo(7) + batchInfo(8)) / 60 'combined time converted to hours
+batchInfo(0) = "'" & batchInfo(0)
+
 Rows("3:3").Select
 Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromRightOrBelow
 Rows("3:3").Select
@@ -45,13 +61,17 @@ Range("C3").Value = batchInfo(2) 'plug in lot number
 Range("D3").Value = batchInfo(3) 'plug in quantity
 
 'Copy all the formatting and formulae for I:V to new row
-Range("G4:V4").Select
+Range("G4:X4").Select
 Selection.Copy
-Range("G3:V3").Select
+Range("G3:X3").Select
 ActiveCell.PasteSpecial Paste:=xlPasteAll
-
+Range("X3").ClearContents
 Range("K3").Value = batchInfo(3) 'plug in quantity in blend sheet cell
 Range("O3").Value = batchInfo(4) 'plug in the label quantity
+If Range("Q3").Value = "Prod" Then
+    Range("V3").Value = batchInfo(5) 'plug in the tote quantity
+    Range("W3").Value = Round(batchInfo(8), 2) 'plug in the projected hours needed
+End If
 Range("E3").Value = Now() 'timestamp
 
 'Increment the seed number
@@ -73,7 +93,7 @@ Sub copyLast()
 'Tell the thing how many extra copies to make past the first one
 Dim i As Integer
 Dim loopCount As Integer
-loopCount = Application.InputBox(Prompt:="If additional copies of this lot number are needed, type in how many are needed below. If no other copies are needed, just type in 0.", Type:=1)
+loopCount = Application.InputBox(Prompt:="If additional lot numbers are needed for this same blend & quantity, type in how many copies are needed. If no other copies are needed, just type in 0.", Type:=1)
 
 Dim lotInfo(5) As Variant
 
@@ -102,8 +122,8 @@ For i = 1 To loopCount
     Range("A4:V4").Copy
     Range("A3:V3").PasteSpecial Paste:=xlPasteFormats
 Next i
-
 Application.CutCopyMode = False
+
 
 End Sub
 

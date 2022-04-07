@@ -57,7 +57,9 @@ Sub labelPrinter()
     answer = MsgBox("Print the pre-calculated number of labels for this lot?", vbQuestion + vbYesNo + vbDefaultButton2, "Label Quantity")
 
     If answer = vbYes Then
+        
         ActiveWorkbook.FollowHyperlink Address:=labelPath, NewWindow:=True
+       
         Delay (2)
         Application.SendKeys "^p", True
         Application.SendKeys labelCount, True

@@ -1,0 +1,95 @@
+Public Function lotStringer()
+'///This just goes up the list of lot numbers, older to newer, and creates a comma-separated string including
+'///all consecutive lots that share Date and blend PN.
+
+Dim lotNumStrang As String, pnStr As String, dateStr As Date
+lotDate = ActiveCell.Offset(, 11).Value
+pnStr = ActiveCell.Offset(, -6).Value
+lotNumStrang = ActiveCell.Offset(, -4)
+
+For j = 1 To 6
+    If ActiveCell.Offset(-(j), 11).Value = lotDate Then
+        If ActiveCell.Offset(-(j), -6).Value = pnStr Then
+            lotNumStrang = lotNumStrang + ", " + ActiveCell.Offset(-(j), -4).Value
+        End If
+    Else
+       ActiveCell.Offset(-(j), 0).Select
+       Exit For
+    End If
+Next j
+
+lotStringer = lotNumStrang
+
+End Function
+
+
+Sub showLotNums()
+'///Creates lot number strings and puts them into the prod schedule, formatted for emailing to the label room
+
+    Dim src As String
+    src = ActiveWorkbook.Name
+    Call macrosOff
+    
+    'open and prepare Horix sheet
+    Workbooks.Open Filename:= _
+    "C:\OD\Kinpak, Inc\Production - Documents\Production Schedule\Starbrite KPK production schedule.xlsb"
+    With Workbooks("Starbrite KPK production schedule.xlsb")
+        Sheets("Horix Line").Activate
+        Dim drumCell As Range
+        Set drumCell = Range("C2:C100").Find(what:="DRUMS", LookIn:=xlValues, lookat:=xlWhole)
+        With drumCell
+            .Offset(, 10).Value = "Lot Numbers"
+            
+            .Copy
+            .Offset(, 10).PasteSpecial Paste:=xlPasteFormats
+        End With
+    End With
+    
+    Dim pSchedPN As String, pSchedDate As Date 'pschedule vars
+    Dim lngPN As String, lngDate As Date, lotNumStr As String 'lotnumgen vars
+    
+    Dim inc As Integer
+    inc = 1
+    For i = 1 To 30
+        'Make sure this isnt an empty row and then check whether we're at the end of the list
+        If drumCell.Offset(inc, 0).Value = " " Then
+            drumCell.Offset(inc, 0).ClearContents
+        End If
+        If drumCell.Offset(inc, 0).Value = "SchEnd" Then
+            Exit For
+        End If
+        
+        'If it's not an empty row, get the date and PN for that row and then go to town
+        If drumCell.Offset(inc, 0).Value <> "" Then
+            pSchedPN = drumCell.Offset(inc, 4).Value
+            pSchedDate = drumCell.Offset(inc, 8).Value
+            Windows(src).Activate
+            If ActiveCell.Offset(, 10) <> "Dm" Then
+                Exit For
+            End If
+            lngPN = ActiveCell.Offset(0, -6)
+            lngDate = ActiveCell.Offset(0, 11)
+            Windows("Starbrite KPK production schedule.xlsb").Activate
+            If drumCell.Offset(inc, 8) = lngDate Then
+                If drumCell.Offset(inc, 4) = lngPN Then
+                    Windows(src).Activate
+                    lotNumStr = lotStringer()
+                    Windows("Starbrite KPK production schedule.xlsb").Activate
+                    With drumCell.Offset(inc, 10)
+                        .Value = lotNumStr
+                        .Font.Size = 14
+                    End With
+                End If
+            End If
+        End If
+        inc = inc + 1
+    Next i
+
+    Windows(src).Activate
+    Call macrosOn
+    Windows("Starbrite KPK production schedule.xlsb").Activate
+    ActiveCell.HorizontalAlignment = xlCenter
+    Columns("M:M").AutoFit
+
+End Sub
+

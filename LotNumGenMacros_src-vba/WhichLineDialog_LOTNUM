@@ -5,7 +5,12 @@ Function IsWorkBookOpen(Name As String) As Boolean
     IsWorkBookOpen = (Not xWb Is Nothing)
 End Function
 
-
+Private Sub CommandButton1_Click()
+    Rows(3).EntireRow.Delete
+    Unload WhichLineDialog_LOTNUM
+    Range("G1").Value = Range("G1").Value - 1
+    Range("Z1").Value = "Cancelled"
+End Sub
 
 Private Sub drumButton_Click()
 '///What happens when you put in a Dm blend////////////////////////////////////////////////////////////////////////
@@ -26,8 +31,8 @@ Private Sub drumButton_Click()
     Dim runDay As String
     Dim runDate As Date
     
-    If IsWorkBookOpen("BlendingSchedule_1.3.xlsb") Then
-        Workbooks("Blending Schedule_1.3").Activate
+    If IsWorkBookOpen("BlendingSchedule_2.0.xlsb") Then
+        Workbooks("BlendingSchedule_2.0.xlsb").Activate
         runDate = ActiveCell.Offset(0, -4).Value
         runDay = ActiveCell.Offset(0, -3).Value
     Else
@@ -51,7 +56,7 @@ Private Sub drumButton_Click()
     End If
     
     Unload WhichLineDialog_LOTNUM
-    Workbooks("Blending Lot Number Generator").Activate
+    Workbooks("Blending Lot Number Generator.xlsb").Activate
     Range("R3").Value = runDate
     Range("S3").Value = runDay
 
@@ -111,10 +116,26 @@ Private Sub horixButton_Click()
     Dim runDay As String
     Dim runDate As Date
 
-    If IsWorkBookOpen("Blending Schedule_1.3.xlsb") Then
-        Workbooks("Blending Schedule_1.3").Activate
+    If IsWorkBookOpen("BlendingSchedule_2.0.xlsb") Then
+        Workbooks("BlendingSchedule_2.0").Activate
         runDate = ActiveCell.Offset(0, -4).Value
-        runDay = ActiveCell.Offset(0, -3).Value
+        Select Case Weekday(runDate)
+            Case 1
+                runDay = "Sun"
+            Case 2
+                runDay = "Mon"
+            Case 3
+                runDay = "Tue"
+            Case 4
+                runDay = "Wed"
+            Case 5
+                runDay = "Thu"
+            Case 6
+                runDay = "Fri"
+            Case 7
+                runDay = "Sat"
+        End Select
+                
     Else
         runDate = InputBox("Enter the date as MM/DD/YYYY")
         Select Case Weekday(runDate)
@@ -133,10 +154,11 @@ Private Sub horixButton_Click()
             Case 7
                 runDay = "Sat"
         End Select
+        
     End If
     
     Unload WhichLineDialog_LOTNUM
-    Workbooks("Blending Lot Number Generator").Activate
+    Workbooks("Blending Lot Number Generator.xlsb").Activate
     Range("R3").Value = runDate
     Range("S3").Value = runDay
     
@@ -195,8 +217,8 @@ Private Sub pailsButton_Click()
     Dim runDay As String
     Dim runDate As Date
     
-    If IsWorkBookOpen("BlendingSchedule_1.3.xlsb") Then
-        Workbooks("Blending Schedule_1.3").Activate
+    If IsWorkBookOpen("BlendingSchedule_2.0.xlsb") Then
+        Workbooks("BlendingSchedule_2.0.xlsb").Activate
         runDate = ActiveCell.Offset(0, -4).Value
         runDay = ActiveCell.Offset(0, -3).Value
     Else
@@ -330,8 +352,8 @@ Private Sub totesButton_Click()
     Dim runDay As String
     Dim runDate As Date
     
-    If IsWorkBookOpen("BlendingSchedule_1.3.xlsb") Then
-        Workbooks("Blending Schedule_1.3").Activate
+    If IsWorkBookOpen("BlendingSchedule_2.0.xlsb") Then
+        Workbooks("BlendingSchedule_2.0.xlsb").Activate
         runDate = ActiveCell.Offset(0, -4).Value
         runDay = ActiveCell.Offset(0, -3).Value
     Else
@@ -393,4 +415,3 @@ Private Sub totesButton_Click()
     End With
     
 End Sub
-

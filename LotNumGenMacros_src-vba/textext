@@ -1,0 +1,14 @@
+Function TEXTEXTRACTOR(TestString As String, Pattern As String, Instance As Integer, Optional IgnoreCase As Boolean = True) As String   'TextExtractor is a formula that will accept
+Static RegEx As Object, oMatches As Object                                                                                              'Custom regex patterns in position 2 to fil-
+If RegEx Is Nothing Then Set RegEx = CreateObject("VBScript.RegExp")                                                                    'ter exact text from the cell in reference 1
+                                                                                                                                        'Position 3 specifies the index number of the
+With RegEx                                                                                                                              'instance to be returned
+    .Pattern = Pattern
+    .Global = True
+    .IgnoreCase = IgnoreCase
+    If .test(TestString) = True Then
+        Set oMatches = .Execute(TestString)
+        If oMatches.Count >= Instance Then TEXTEXTRACTOR = oMatches(Instance - 1)
+    End If
+End With
+End Function

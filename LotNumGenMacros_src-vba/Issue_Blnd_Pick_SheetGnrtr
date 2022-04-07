@@ -1,3 +1,5 @@
+
+
 Sub issueSheetGen()
 '///Linked to F:F on  on Lot Number Generator sheet////////////////////////////////////////////////////////////////////////
 '///Generates an issue sheet for the blend of the row that is clicked//////////////////////////////////////////////////////
@@ -135,12 +137,12 @@ On Error GoTo JustInCase
     Application.Calculation = xlAutomatic
 
     'Put the lot qty and lot num into the sheet and print
-    Cells.Find(What:="Theory Gallons", After:=ActiveCell, LookIn:=xlFormulas2 _
-        , LookAt:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
+    Cells.Find(what:="Theory Gallons", After:=ActiveCell, LookIn:=xlFormulas2 _
+        , lookat:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
         MatchCase:=False, SearchFormat:=False).Activate
     ActiveCell.Offset(1, 0).Value = blendInfo(0)
-    Cells.Find(What:="Lot Number:", After:=ActiveCell, LookIn:=xlFormulas2 _
-        , LookAt:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
+    Cells.Find(what:="Lot Number:", After:=ActiveCell, LookIn:=xlFormulas2 _
+        , lookat:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
         MatchCase:=False, SearchFormat:=False).Activate
     ActiveCell.Offset(0, 1).Value = blendInfo(1)
     ActiveSheet.PrintOut
@@ -186,12 +188,12 @@ On Error GoTo JustInCase
                             moreInfo(3) = ActiveCell.Offset(0, -9) 'blend desc
                             Windows(blndSht).Activate
                             'Put the lot qty and lot num into the sheet and print
-                            Cells.Find(What:="Theory Gallons", After:=ActiveCell, LookIn:=xlFormulas2 _
-                                , LookAt:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
+                            Cells.Find(what:="Theory Gallons", After:=ActiveCell, LookIn:=xlFormulas2 _
+                                , lookat:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
                                 MatchCase:=False, SearchFormat:=False).Activate
                             ActiveCell.Offset(1, 0).Value = moreInfo(0) 'qty
-                            Cells.Find(What:="Lot Number:", After:=ActiveCell, LookIn:=xlFormulas2 _
-                                , LookAt:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
+                            Cells.Find(what:="Lot Number:", After:=ActiveCell, LookIn:=xlFormulas2 _
+                                , lookat:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
                                 MatchCase:=False, SearchFormat:=False).Activate
                             ActiveCell.Offset(0, 1).Value = moreInfo(1) 'lot no
                             ActiveSheet.PrintOut
@@ -203,8 +205,8 @@ On Error GoTo JustInCase
         Case "Prod"
             'Return to blend sheet workbook clear the lot number cell
             Windows(blndSht).Activate
-            Cells.Find(What:="Lot Number:", After:=ActiveCell, LookIn:=xlFormulas2 _
-                , LookAt:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
+            Cells.Find(what:="Lot Number:", After:=ActiveCell, LookIn:=xlFormulas2 _
+                , lookat:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
                 MatchCase:=False, SearchFormat:=False).Activate
             ActiveCell.Offset(0, 1).Value = ""
             Windows(blndSht).Close SaveChanges:=False
