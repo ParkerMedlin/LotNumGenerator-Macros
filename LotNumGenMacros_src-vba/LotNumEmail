@@ -3,14 +3,14 @@ Public Function lotStringer()
 '///all consecutive lots that share Date and blend PN.
 
 Dim lotNumStrang As String, pnStr As String, dateStr As Date
-lotDate = ActiveCell.Offset(, 11).Value
-pnStr = ActiveCell.Offset(, -6).Value
+lotDate = ActiveCell.Offset(, 11).value
+pnStr = ActiveCell.Offset(, -6).value
 lotNumStrang = ActiveCell.Offset(, -4)
 
 For j = 1 To 6
-    If ActiveCell.Offset(-(j), 11).Value = lotDate Then
-        If ActiveCell.Offset(-(j), -6).Value = pnStr Then
-            lotNumStrang = lotNumStrang + ", " + ActiveCell.Offset(-(j), -4).Value
+    If ActiveCell.Offset(-(j), 11).value = lotDate Then
+        If ActiveCell.Offset(-(j), -6).value = pnStr Then
+            lotNumStrang = lotNumStrang + ", " + ActiveCell.Offset(-(j), -4).value
         End If
     Else
        ActiveCell.Offset(-(j), 0).Select
@@ -38,7 +38,7 @@ Sub showLotNums()
         Dim drumCell As Range
         Set drumCell = Range("C2:C100").Find(what:="DRUMS", LookIn:=xlValues, lookat:=xlWhole)
         With drumCell
-            .Offset(, 10).Value = "Lot Numbers"
+            .Offset(, 10).value = "Lot Numbers"
             
             .Copy
             .Offset(, 10).PasteSpecial Paste:=xlPasteFormats
@@ -52,17 +52,17 @@ Sub showLotNums()
     inc = 1
     For i = 1 To 30
         'Make sure this isnt an empty row and then check whether we're at the end of the list
-        If drumCell.Offset(inc, 0).Value = " " Then
+        If drumCell.Offset(inc, 0).value = " " Then
             drumCell.Offset(inc, 0).ClearContents
         End If
-        If drumCell.Offset(inc, 0).Value = "SchEnd" Then
+        If drumCell.Offset(inc, 0).value = "SchEnd" Then
             Exit For
         End If
         
         'If it's not an empty row, get the date and PN for that row and then go to town
-        If drumCell.Offset(inc, 0).Value <> "" Then
-            pSchedPN = drumCell.Offset(inc, 4).Value
-            pSchedDate = drumCell.Offset(inc, 8).Value
+        If drumCell.Offset(inc, 0).value <> "" Then
+            pSchedPN = drumCell.Offset(inc, 4).value
+            pSchedDate = drumCell.Offset(inc, 8).value
             Windows(src).Activate
             If ActiveCell.Offset(, 10) <> "Dm" Then
                 Exit For
@@ -76,7 +76,7 @@ Sub showLotNums()
                     lotNumStr = lotStringer()
                     Windows("Starbrite KPK production schedule.xlsb").Activate
                     With drumCell.Offset(inc, 10)
-                        .Value = lotNumStr
+                        .value = lotNumStr
                         .Font.Size = 14
                     End With
                 End If

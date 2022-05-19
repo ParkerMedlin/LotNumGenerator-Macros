@@ -1,0 +1,33 @@
+
+Private oEventHandler As New clsSearchableDropdown
+
+Public Property Let ListData(ByVal rg As Range)
+    oEventHandler.List = rg.value
+End Property
+
+Private Sub oldestLotButton_Click()
+    
+End Sub
+
+Private Sub UserForm_Initialize()
+
+    ' Settings
+    With oEventHandler
+
+    ' Attach the textbox and listbox to the class
+     Set .SearchListBox = Me.ListBox1
+     Set .SearchTextBox = Me.TextBox1
+    
+    ' Default settings
+    .MaxRows = 6
+    .ShowAllMatches = False
+    .CompareMethod = vbTextCompare
+    .WindowsVersion = True
+
+    End With
+
+End Sub
+
+Private Sub UserForm_Terminate()
+    Set oEventHandler = Nothing
+End Sub

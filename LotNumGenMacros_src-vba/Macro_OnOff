@@ -3,7 +3,7 @@ Sub macrosOnOff()
     ActiveSheet.Shapes.Range(Array("powerButton")).Select
     
     
-        If Range("AA1").Value = "On" Then
+        If Range("AA1").value = "On" Then
                 Call macrosOff
                 With Selection.ShapeRange
                     With .Line
@@ -51,7 +51,7 @@ Sub macrosOn()
 '///Assigned to "On" cell on various sheets////////////////////////////////////////////////////////////////////////////////
 '///Turns on Macros////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    Range("AA1").Value = "On"
+    Range("AA1").value = "On"
     
 End Sub
 
@@ -60,6 +60,6 @@ Sub macrosOff()
 '///Assigned to "Off" cell on various sheets///////////////////////////////////////////////////////////////////////////////
 '///Turns off Macros///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    Range("AA1").Value = ""
+    Range("AA1").value = ""
     
 End Sub

@@ -13,6 +13,29 @@ Sub Delay(Finish As Long)
     Loop Until NowTick >= EndTick
 End Sub
 
+Sub oldLotLabelPrint()
+'///Shows the userform that lists all of our blendPNs so you can search them///////////////////////////////////////////////
+
+    Dim frm As UserForm1
+    Set frm = UserForms.Add(UserForm1.Name)
+    frm.ListData = Sheets("SageLotNumbers").Range("B:B").CurrentRegion
+    frm.show
+
+End Sub
+
+Sub oldLotFind()
+
+Dim blendPN As String, lotNum As String
+blendPN = InputBox("Enter blend part number and two labels will be printed from the oldest available lot.", "Enter Part Number")
+On Error GoTo errCatch
+lotNum = WorksheetFunction.Index(Sheets("SageLotNumbers").Columns(8), Application.Match(blendPN, Sheets("SageLotNumbers").Columns(1), 0))
+MsgBox lotNum
+
+errCatch:
+MsgBox ("That didn't work. Try retyping the part number.")
+Call oldLotFind
+
+End Sub
 
 Sub labelPrinter()
 '///Prints labels for the row selected/////////////////////////////////////////////////////////////////////////////////////
@@ -25,27 +48,27 @@ Sub labelPrinter()
 
     'macros off
     Call macrosOff
-
+    
     'select the correct filepath for the barTender document based on which protections are needed
     labelPath = "C:\OD\Kinpak, Inc\Blending - Documents\01 Spreadsheet Tools\Blending Label Templates & BTdatabases\BlendInventoryLabels\"
-    protecc = ActiveCell.Offset(0, -1).Value
+    protecc = ActiveCell.Offset(0, -1).value
     labelPath = labelPath & protecc & ".btw"
 
     'number of labels to be made
-    labelCount = ActiveCell.Value
+    labelCount = ActiveCell.value
 
     'Set values into array slots
-    labelInfo(0) = ActiveCell.Offset(0, 1).Value   'shortname
-    labelInfo(1) = ActiveCell.Offset(0, -1).Value  'protection type
-    labelInfo(2) = ActiveCell.Offset(0, -12).Value 'lot number
-    labelInfo(3) = ActiveCell.Offset(0, -14).Value 'blend PN
+    labelInfo(0) = ActiveCell.Offset(0, 1).value   'shortname
+    labelInfo(1) = ActiveCell.Offset(0, -1).value  'protection type
+    labelInfo(2) = ActiveCell.Offset(0, -12).value 'lot number
+    labelInfo(3) = ActiveCell.Offset(0, -14).value 'blend PN
 
     'Put everything over there in the workbook that feeds the barTender templates
     Workbooks.Open "C:\OD\Kinpak, Inc\Blending - Documents\01 Spreadsheet Tools\Blending Label Templates & BTdatabases\BlendInventoryLabels\LabelGenLayover.xlsx"
-    Range("A2").Value = labelInfo(3)
-    Range("B2").Value = labelInfo(0)
-    Range("C2").Value = labelInfo(2)
-    Range("D2").Value = labelInfo(1)
+    Range("A2").value = labelInfo(3)
+    Range("B2").value = labelInfo(0)
+    Range("C2").value = labelInfo(2)
+    Range("D2").value = labelInfo(1)
 
     'save & close so barTender can access the spreadsheet
     Workbooks("LabelGenLayover.xlsx").Close SaveChanges:=True
@@ -95,4 +118,38 @@ Sub labelPrinter()
     ToggleNumlock True
     Windows("Blending Lot Number Generator.xlsb").Activate
     
+End Sub
+
+
+Sub GHSgen()
+
+Dim blendPN, lotNum, picPath As String
+
+blendPN = ActiveCell.Offset(0, -23).value
+lotNum = ActiveCell.Offset(0, -21).value
+Workbooks.Open ("C:\OD\Kinpak, Inc\Blending - Documents\01 Spreadsheet Tools\Blending Label Templates & BTdatabases\GHSLabelGen\GHS_LabelBook.xlsb")
+picPath = "C:\OD\Kinpak, Inc\Blending - Documents\01 Spreadsheet Tools\Blending Label Templates & BTdatabases\GHSLabelGen\SDS_section2\" & blendPN & ".png"
+    Range("A7").Select
+    ActiveSheet.Pictures.Insert(picPath).Select
+    Range("A30").Select
+    ActiveSheet.Pictures.Insert(picPath).Select
+
+Range("M2").value = blendPN
+Range("M3").value = lotNum
+
+MsgBox ("Open the paper tray on the printer, wait til the 'No Paper' error pops up, and then load a label into the manual feed slot.")
+
+
+Range("A1:J45").Select
+Selection.PrintOut
+
+Range("M2:M3").ClearContents
+
+Dim Pic As Object
+For Each Pic In ActiveSheet.Pictures
+Pic.Delete
+Next Pic
+
+ActiveWorkbook.Close
+
 End Sub

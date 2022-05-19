@@ -1,7 +1,7 @@
 Private Sub Worksheet_SelectionChange(ByVal target As Range)
 
-If InStr(1, (Range("AA1").Value), "On") > 0 Then
-    If Selection.Count = 1 Then
+If InStr(1, (Range("AA1").value), "On") > 0 Then
+    If Selection.count = 1 Then
         If Not Intersect(target, Range("$I3:$I1000")) Is Nothing Then
             Call issueSheetGen
         End If
@@ -17,8 +17,11 @@ If InStr(1, (Range("AA1").Value), "On") > 0 Then
         If Not Intersect(target, Range("$AK1")) Is Nothing Then
             Call shapeRestore
         End If
-        If Not Intersect(target, Range("$G3:$G100")) Is Nothing Then
+        If Not Intersect(target, Range("$G3:$G1000")) Is Nothing Then
             Call showLotNums
+        End If
+        If Not Intersect(target, Range("$X3:$X1000")) Is Nothing Then
+            Call GHSgen
         End If
     End If
 End If

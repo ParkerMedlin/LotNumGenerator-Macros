@@ -13,6 +13,6 @@ Sub clearChemsToCheckFilter1()
    ActiveSheet.ListObjects("pickSheetTable_query").Range.AutoFilter Field:=1
    Rows.EntireRow("1:1").Delete
    Rows.EntireRow("1:1").Delete
-   Range("M1").Value = ""
+   Range("M1").value = ""
  
 End Sub

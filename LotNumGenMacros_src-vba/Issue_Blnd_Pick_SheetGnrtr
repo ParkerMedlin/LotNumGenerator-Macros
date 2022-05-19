@@ -11,17 +11,17 @@ Sub issueSheetGen()
 
     'Declare array for blend info and populate it
     Dim blendInfo(6) As Variant
-    blendInfo(0) = ActiveCell.Offset(0, -8).Value 'blend PN
-    blendInfo(1) = ActiveCell.Offset(0, -7).Value 'blend Description
-    blendInfo(2) = ActiveCell.Offset(0, -5).Value 'quantity
-    blendInfo(3) = ActiveCell.Offset(0, 9).Value  'run date
-    blendInfo(4) = ActiveCell.Offset(0, 8).Value  'line
+    blendInfo(0) = ActiveCell.Offset(0, -8).value 'blend PN
+    blendInfo(1) = ActiveCell.Offset(0, -7).value 'blend Description
+    blendInfo(2) = ActiveCell.Offset(0, -5).value 'quantity
+    blendInfo(3) = ActiveCell.Offset(0, 9).value  'run date
+    blendInfo(4) = ActiveCell.Offset(0, 8).value  'line
         
     'Declare array for lot numbers and populate it
     Dim lotNumbers(9) As Variant
-    lotNumbers(0) = ActiveCell.Offset(0, -6).Value
+    lotNumbers(0) = ActiveCell.Offset(0, -6).value
     Dim lotQuantities(9) As Variant
-    lotQuantities(0) = ActiveCell.Offset(0, -5).Value
+    lotQuantities(0) = ActiveCell.Offset(0, -5).value
     ActiveCell.Select
     With Selection.Interior
         .Pattern = xlSolid
@@ -32,7 +32,7 @@ Sub issueSheetGen()
     End With
     
     'Store the line value in array too
-    Select Case ActiveCell.Offset(0, 8).Value
+    Select Case ActiveCell.Offset(0, 8).value
     Case "Hx"
         blendInfo(5) = "Horix"
     Case "Dm"
@@ -74,30 +74,30 @@ Sub issueSheetGen()
 
     With ActiveWorkbook
         'blend information
-        Range("B8").Value = blendInfo(0) 'plug in blend PN
-        Range("D8").Value = blendInfo(1) 'plug in blend Description
-        Range("B12").Value = blendInfo(2) 'plug in quantity
-        Range("D4").Value = blendInfo(3) 'plug in run date
-        Range("D6").Value = blendInfo(5) 'plug in line name
+        Range("B8").value = blendInfo(0) 'plug in blend PN
+        Range("D8").value = blendInfo(1) 'plug in blend Description
+        Range("B12").value = blendInfo(2) 'plug in quantity
+        Range("D4").value = blendInfo(3) 'plug in run date
+        Range("D6").value = blendInfo(5) 'plug in line name
         'lot numbers and quantities
-        Range("B10").Value = lotNumbers(0)
-        Range("B12").Value = lotQuantities(0)
-        Range("D10").Value = lotNumbers(1)
-        Range("D12").Value = lotQuantities(1)
-        Range("F10").Value = lotNumbers(2)
-        Range("F12").Value = lotQuantities(2)
-        Range("B24").Value = lotNumbers(3)
-        Range("B26").Value = lotQuantities(3)
-        Range("D24").Value = lotNumbers(4)
-        Range("D26").Value = lotQuantities(4)
-        Range("F24").Value = lotNumbers(5)
-        Range("F26").Value = lotQuantities(5)
-        Range("B29").Value = lotNumbers(6)
-        Range("B31").Value = lotQuantities(6)
-        Range("D29").Value = lotNumbers(7)
-        Range("D31").Value = lotQuantities(7)
-        Range("F29").Value = lotNumbers(8)
-        Range("F31").Value = lotQuantities(8)
+        Range("B10").value = lotNumbers(0)
+        Range("B12").value = lotQuantities(0)
+        Range("D10").value = lotNumbers(1)
+        Range("D12").value = lotQuantities(1)
+        Range("F10").value = lotNumbers(2)
+        Range("F12").value = lotQuantities(2)
+        Range("B24").value = lotNumbers(3)
+        Range("B26").value = lotQuantities(3)
+        Range("D24").value = lotNumbers(4)
+        Range("D26").value = lotQuantities(4)
+        Range("F24").value = lotNumbers(5)
+        Range("F26").value = lotQuantities(5)
+        Range("B29").value = lotNumbers(6)
+        Range("B31").value = lotQuantities(6)
+        Range("D29").value = lotNumbers(7)
+        Range("D31").value = lotQuantities(7)
+        Range("F29").value = lotNumbers(8)
+        Range("F31").value = lotQuantities(8)
     End With
     
     Windows(src).Activate
@@ -123,7 +123,7 @@ On Error GoTo JustInCase
     
     Dim blendInfo(5) As Variant
     'Copy the value of the shortage qty cell
-    blendInfo(0) = ActiveCell.Value         'qty
+    blendInfo(0) = ActiveCell.value         'qty
     blendInfo(1) = ActiveCell.Offset(0, -8) 'lot number
     blendInfo(2) = ActiveCell.Offset(0, 6)  'line
     blendInfo(3) = ActiveCell.Offset(0, -9) 'blend desc
@@ -131,7 +131,7 @@ On Error GoTo JustInCase
     
     'Get the filepath + name of the appropriate blend sheet and set formula calc to Automatic
     Dim blndShtPath As String
-    blndShtPath = ActiveCell.Offset(0, 1).Value
+    blndShtPath = ActiveCell.Offset(0, 1).value
     Workbooks.Open Filename:= _
         blndShtPath
     Application.Calculation = xlAutomatic
@@ -140,11 +140,11 @@ On Error GoTo JustInCase
     Cells.Find(what:="Theory Gallons", After:=ActiveCell, LookIn:=xlFormulas2 _
         , lookat:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
         MatchCase:=False, SearchFormat:=False).Activate
-    ActiveCell.Offset(1, 0).Value = blendInfo(0)
+    ActiveCell.Offset(1, 0).value = blendInfo(0)
     Cells.Find(what:="Lot Number:", After:=ActiveCell, LookIn:=xlFormulas2 _
         , lookat:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
         MatchCase:=False, SearchFormat:=False).Activate
-    ActiveCell.Offset(0, 1).Value = blendInfo(1)
+    ActiveCell.Offset(0, 1).value = blendInfo(1)
     ActiveSheet.PrintOut
     
     'Set a variable so we can return to this regardless of filename
@@ -182,7 +182,7 @@ On Error GoTo JustInCase
                             Dim moreInfo(4) As Variant 'another array to hold info for next line up
                             ActiveCell.Offset(-1, 0).Select 'hit up the next line if the blend desc's match
                             Selection.Activate
-                            moreInfo(0) = ActiveCell.Value         'qty
+                            moreInfo(0) = ActiveCell.value         'qty
                             moreInfo(1) = ActiveCell.Offset(0, -8) 'lot number
                             moreInfo(2) = ActiveCell.Offset(0, 6)  'line
                             moreInfo(3) = ActiveCell.Offset(0, -9) 'blend desc
@@ -191,11 +191,11 @@ On Error GoTo JustInCase
                             Cells.Find(what:="Theory Gallons", After:=ActiveCell, LookIn:=xlFormulas2 _
                                 , lookat:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
                                 MatchCase:=False, SearchFormat:=False).Activate
-                            ActiveCell.Offset(1, 0).Value = moreInfo(0) 'qty
+                            ActiveCell.Offset(1, 0).value = moreInfo(0) 'qty
                             Cells.Find(what:="Lot Number:", After:=ActiveCell, LookIn:=xlFormulas2 _
                                 , lookat:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
                                 MatchCase:=False, SearchFormat:=False).Activate
-                            ActiveCell.Offset(0, 1).Value = moreInfo(1) 'lot no
+                            ActiveCell.Offset(0, 1).value = moreInfo(1) 'lot no
                             ActiveSheet.PrintOut
                         End If
                     End If
@@ -208,7 +208,7 @@ On Error GoTo JustInCase
             Cells.Find(what:="Lot Number:", After:=ActiveCell, LookIn:=xlFormulas2 _
                 , lookat:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
                 MatchCase:=False, SearchFormat:=False).Activate
-            ActiveCell.Offset(0, 1).Value = ""
+            ActiveCell.Offset(0, 1).value = ""
             Windows(blndSht).Close SaveChanges:=False
     End Select
     
@@ -224,7 +224,7 @@ JustInCase:
     If uInput = vbYes Then
         'Get the filepath of the blend sheet folder
         Dim sheetsFolderPath As String
-        sheetsFolderPath = ActiveWorkbook.Sheets(2).Range("A2").Value
+        sheetsFolderPath = ActiveWorkbook.Sheets(2).Range("A2").value
         Call Shell("explorer.exe " & sheetsFolderPath)
         'Application.SendKeys ("%{TAB}"), True
     Else

@@ -1,9 +1,9 @@
 
-Public Function RoundUp(ByVal Value As Double)
-    If Int(Value) = Value Then
-        RoundUp = Value
+Public Function RoundUp(ByVal value As Double)
+    If Int(value) = value Then
+        RoundUp = value
     Else
-        RoundUp = Int(Value) + 1
+        RoundUp = Int(value) + 1
     End If
 End Function
 
@@ -12,8 +12,8 @@ Sub plusSign()
 '///Calls the incrementor and then the WhichLine userform//////////////////////////////////////////////////////////////////
 
 Call increment
-WhichLineDialog_LOTNUM.Show
-If Range("Z1").Value = "Cancelled" Then
+WhichLineDialog_LOTNUM.show
+If Range("Z1").value = "Cancelled" Then
     Range("Z1").ClearContents
     Range("J3").Select
 Else
@@ -29,17 +29,17 @@ Sub increment()
 'make an array, grab lot info, insert it in the new row, timestamp it
 Call macrosOff
 Dim batchInfo(10) As Variant
-batchInfo(0) = Range("A2").Value  'part number (convert the value to text so INDEX(MATCH()) still works)
-batchInfo(1) = Range("B2").Value 'blend desc
-batchInfo(2) = Range("C2").Value 'lot number
-batchInfo(3) = Range("D2").Value 'quantity
+batchInfo(0) = Range("A2").value  'part number (convert the value to text so INDEX(MATCH()) still works)
+batchInfo(1) = Range("B2").value 'blend desc
+batchInfo(2) = Range("C2").value 'lot number
+batchInfo(3) = Range("D2").value 'quantity
 batchInfo(4) = RoundUp((batchInfo(3) / 250)) * 2 'label quantity
 batchInfo(5) = RoundUp((batchInfo(3) / 250)) 'tote quantity
 
-Dim toteWashFactor As Double, blendVarTime As Double, blendFixedTime As Double
-toteWashTime = WorksheetFunction.Index(Sheets("BlndCats").Columns("D:D"), Application.Match(batchInfo(0), Sheets("BlndCats").Columns("A:A"), 0))
-blendVarTime = WorksheetFunction.Index(Sheets("BlndCats").Columns("E:E"), Application.Match(batchInfo(0), Sheets("BlndCats").Columns("A:A"), 0))
-blendFixedTime = WorksheetFunction.Index(Sheets("BlndCats").Columns("F:F"), Application.Match(batchInfo(0), Sheets("BlndCats").Columns("A:A"), 0))
+'Dim toteWashFactor As Double, blendVarTime As Double, blendFixedTime As Double
+'toteWashTime = WorksheetFunction.Index(Sheets("BlndCats").Columns("D:D"), Application.Match(batchInfo(0), Sheets("BlndCats").Columns("A:A"), 0))
+'blendVarTime = WorksheetFunction.Index(Sheets("BlndCats").Columns("E:E"), Application.Match(batchInfo(0), Sheets("BlndCats").Columns("A:A"), 0))
+'blendFixedTime = WorksheetFunction.Index(Sheets("BlndCats").Columns("F:F"), Application.Match(batchInfo(0), Sheets("BlndCats").Columns("A:A"), 0))
 
 batchInfo(6) = batchInfo(5) * toteWashTime 'time needed to wash totes
 batchInfo(7) = batchInfo(3) * blendVarTime 'estimated VARIABLE time for just blending
@@ -55,31 +55,33 @@ Rows("3:3").Select
         .TintAndShade = 0
         .PatternTintAndShade = 0
     End With
-Range("A3").Value = batchInfo(0) 'plug in part number
-Range("B3").Value = batchInfo(1) 'plug in blend desc
-Range("C3").Value = batchInfo(2) 'plug in lot number
-Range("D3").Value = batchInfo(3) 'plug in quantity
+Range("A3").value = batchInfo(0) 'plug in part number
+Range("B3").value = batchInfo(1) 'plug in blend desc
+Range("C3").value = batchInfo(2) 'plug in lot number
+Range("D3").value = batchInfo(3) 'plug in quantity
 
 'Copy all the formatting and formulae for I:V to new row
 Range("G4:X4").Select
 Selection.Copy
 Range("G3:X3").Select
 ActiveCell.PasteSpecial Paste:=xlPasteAll
-Range("X3").ClearContents
-Range("K3").Value = batchInfo(3) 'plug in quantity in blend sheet cell
-Range("O3").Value = batchInfo(4) 'plug in the label quantity
-If Range("Q3").Value = "Prod" Then
-    Range("V3").Value = batchInfo(5) 'plug in the tote quantity
-    Range("W3").Value = Round(batchInfo(8), 2) 'plug in the projected hours needed
+Range("K3").value = batchInfo(3) 'plug in quantity in blend sheet cell
+Range("O3").value = batchInfo(4) 'plug in the label quantity
+If Range("Q3").value = "Prod" Then
+    Range("V3").value = batchInfo(5) 'plug in the tote quantity
+    Range("W3").value = Round(batchInfo(8), 2) 'plug in the projected hours needed
 End If
-Range("E3").Value = Now() 'timestamp
+Range("E3").value = Now() 'timestamp
+If Range("W3").value = 0 Then
+    Range("W3").value = "??"
+End If
 
 'Increment the seed number
-Range("G1").Value = Range("G1").Value + 1
+Range("G1").value = Range("G1").value + 1
 
 'Cleanup
-Range("B2").Value = ""
-Range("D2").Value = ""
+Range("B2").value = ""
+Range("D2").value = ""
 Range("A3").Font.Italic = False
 Application.CutCopyMode = False
 Call macrosOn
@@ -100,23 +102,23 @@ Dim lotInfo(5) As Variant
 'For loop that will run as many times as it is told to in the inputbox
 For i = 1 To loopCount
     'Get all the info from the previous lot
-    lotInfo(0) = Range("B3").Value 'description
-    lotInfo(1) = Range("D3").Value 'lot quantity
-    lotInfo(2) = Range("Q3").Value 'line
-    lotInfo(3) = Range("R3").Value 'run date
-    lotInfo(4) = Range("S3").Value 'run day
+    lotInfo(0) = Range("B3").value 'description
+    lotInfo(1) = Range("D3").value 'lot quantity
+    lotInfo(2) = Range("Q3").value 'line
+    lotInfo(3) = Range("R3").value 'run date
+    lotInfo(4) = Range("S3").value 'run day
     
     'Put description and qty into the slot at the top
-    Range("B2").Value = lotInfo(0) 'plug in desc
-    Range("D2").Value = lotInfo(1) 'plug in qty
+    Range("B2").value = lotInfo(0) 'plug in desc
+    Range("D2").value = lotInfo(1) 'plug in qty
     
     'Do the normal increment stuff
     Call increment
     
     'Put the Line, Run Date, and Day info into the top row
-    Range("Q3").Value = lotInfo(2) 'plug in line
-    Range("R3").Value = lotInfo(3) 'plug in run date
-    Range("S3").Value = lotInfo(4) 'plug in run day
+    Range("Q3").value = lotInfo(2) 'plug in line
+    Range("R3").value = lotInfo(3) 'plug in run date
+    Range("S3").value = lotInfo(4) 'plug in run day
     
     'Copy formatting from the previous lot
     Range("A4:V4").Copy
