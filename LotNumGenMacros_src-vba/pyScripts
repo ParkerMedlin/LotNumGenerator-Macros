@@ -1,0 +1,15 @@
+Sub LotNumToPostgres()
+    Dim uInput As Integer
+    uInput = MsgBox("Copy to Postgres?", vbQuestion + vbYesNo)
+    If uInput = vbYes Then
+        Dim pyArgs As String
+        
+        pyArgs = "'" & Range("A3").value & "', '" & Range("B3").value & "', '" & Range("C3").value & "', '" & Range("D3").value & "', '" & Range("E3").value & "', '" & Range("F3").value & "'"
+        RunPython "import lotNumPyScripts; lotNumPyScripts.lotNumtoPG(" & pyArgs & ")"
+    End If
+    
+End Sub
+
+Sub HelloWorld()
+    RunPython "import hello; world()"
+End Sub

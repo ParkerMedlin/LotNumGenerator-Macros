@@ -8,7 +8,7 @@ End Function
 Private Sub CommandButton1_Click()
     Rows(3).EntireRow.Delete
     Unload WhichLineDialog_LOTNUM
-    Range("G1").value = Range("G1").value - 1
+    Range("I1").value = Range("I1").value - 1
     Range("Z1").value = "Cancelled"
 End Sub
 
@@ -16,10 +16,10 @@ Private Sub drumButton_Click()
 '///What happens when you put in a Dm blend////////////////////////////////////////////////////////////////////////
 
     'put 'Dm' in the line cell
-    Range("Q3").value = "Dm"
+    Range("F3").value = "Dm"
 
     'fill the row 3 cells yellow
-    Range("A3:U3").Select
+    Range("A3:V3").Select
     With Selection.Interior
         .Pattern = xlSolid
         .PatternColorIndex = xlAutomatic
@@ -31,10 +31,10 @@ Private Sub drumButton_Click()
     Dim runDay As String
     Dim runDate As Date
     
-    If IsWorkBookOpen("BlendingSchedule_2.0.xlsb") Then
-        Workbooks("BlendingSchedule_2.0.xlsb").Activate
-        runDate = ActiveCell.Offset(0, -4).value
-        runDay = ActiveCell.Offset(0, -3).value
+    If IsWorkBookOpen("BlendingSchedule.xlsb") Then
+        Workbooks("BlendingSchedule.xlsb").Activate
+        runDate = ActiveCell.Offset(0, 1).value
+        runDay = ActiveCell.Offset(0, 2).value
     Else
         runDate = InputBox("Enter the date as MM/DD/YYYY")
         Select Case Weekday(runDate)
@@ -57,11 +57,11 @@ Private Sub drumButton_Click()
     
     Unload WhichLineDialog_LOTNUM
     Workbooks("Blending Lot Number Generator.xlsb").Activate
-    Range("R3").value = runDate
-    Range("S3").value = runDay
+    Range("S3").value = runDate
+    Range("T3").value = runDay
 
     'borders
-    Range("A3:H3").Select
+    Range("A3:J3").Select
     With Selection.Borders(xlEdgeLeft)
         .LineStyle = xlContinuous
         .ThemeColor = 1
@@ -93,6 +93,8 @@ Private Sub drumButton_Click()
         .Weight = xlThin
     End With
     
+    Call LotNumToPostgres
+    
 End Sub
 
 
@@ -101,10 +103,10 @@ Private Sub horixButton_Click()
 '///What happens when you put in a Hx blend////////////////////////////////////////////////////////////////////////
 
     'put 'Hx' in the line cell
-    Range("Q3").value = "Hx"
+    Range("F3").value = "Hx"
 
     'fill the row 3 cells green
-    Range("A3:U3").Select
+    Range("A3:V3").Select
     With Selection.Interior
         .Pattern = xlSolid
         .PatternColorIndex = xlAutomatic
@@ -116,9 +118,9 @@ Private Sub horixButton_Click()
     Dim runDay As String
     Dim runDate As Date
 
-    If IsWorkBookOpen("BlendingSchedule_2.0.xlsb") Then
-        Workbooks("BlendingSchedule_2.0").Activate
-        runDate = ActiveCell.Offset(0, -4).value
+    If IsWorkBookOpen("BlendingSchedule.xlsb") Then
+        Workbooks("BlendingSchedule").Activate
+        runDate = ActiveCell.Offset(0, 1).value
         Select Case Weekday(runDate)
             Case 1
                 runDay = "Sun"
@@ -159,11 +161,11 @@ Private Sub horixButton_Click()
     
     Unload WhichLineDialog_LOTNUM
     Workbooks("Blending Lot Number Generator.xlsb").Activate
-    Range("R3").value = runDate
-    Range("S3").value = runDay
+    Range("S3").value = runDate
+    Range("T3").value = runDay
     
     'borders
-    Range("A3:H3").Select
+    Range("A3:J3").Select
     With Selection.Borders(xlEdgeLeft)
         .LineStyle = xlContinuous
         .ThemeColor = 1
@@ -195,17 +197,18 @@ Private Sub horixButton_Click()
         .Weight = xlThin
     End With
     
-
+    Call LotNumToPostgres
+    
 End Sub
 
 Private Sub pailsButton_Click()
 '///What happens when you put in a pails blend/////////////////////////////////////////////////////////////////////
 
     'put 'Pails' in the line cell
-    Range("Q3").value = "Pails"
+    Range("F3").value = "Pails"
 
     'fill the row 3 cells yellow
-    Range("A3:U3").Select
+    Range("A3:V3").Select
     With Selection.Interior
         .Pattern = xlSolid
         .PatternColorIndex = xlAutomatic
@@ -217,10 +220,10 @@ Private Sub pailsButton_Click()
     Dim runDay As String
     Dim runDate As Date
     
-    If IsWorkBookOpen("BlendingSchedule_2.0.xlsb") Then
-        Workbooks("BlendingSchedule_2.0.xlsb").Activate
-        runDate = ActiveCell.Offset(0, -4).value
-        runDay = ActiveCell.Offset(0, -3).value
+    If IsWorkBookOpen("BlendingSchedule.xlsb") Then
+        Workbooks("BlendingSchedule.xlsb").Activate
+        runDate = ActiveCell.Offset(0, 1).value
+        runDay = ActiveCell.Offset(0, 2).value
     Else
         runDate = InputBox("Enter the date as MM/DD/YYYY")
         Select Case Weekday(runDate)
@@ -243,11 +246,11 @@ Private Sub pailsButton_Click()
     
     Unload WhichLineDialog_LOTNUM
     Workbooks("Blending Lot Number Generator").Activate
-    Range("R3").value = runDate
-    Range("S3").value = runDay
+    Range("S3").value = runDate
+    Range("T3").value = runDay
     
     'borders
-    Range("A3:H3").Select
+    Range("A3:J3").Select
     With Selection.Borders(xlEdgeLeft)
         .LineStyle = xlContinuous
         .ThemeColor = 1
@@ -279,17 +282,19 @@ Private Sub pailsButton_Click()
         .Weight = xlThin
     End With
     
+    Call LotNumToPostgres
+    
 End Sub
 
 Private Sub prodButton_Click()
     
     'put 'Prod' in the line cell
-    Range("Q3").value = "Prod"
-    Range("R3").value = " - "
+    Range("F3").value = "Prod"
     Range("S3").value = " - "
+    Range("T3").value = " - "
     
     'no fill in the row 3 cells
-    Range("A3:U3").Select
+    Range("A3:V3").Select
     With Selection.Interior
         .Pattern = xlNone
         .TintAndShade = 0
@@ -331,16 +336,20 @@ Private Sub prodButton_Click()
         .Weight = xlThin
     End With
     
+    Call LotNumToPostgres
+    
+    WhichDesk.Show
+    
 End Sub
 
 Private Sub totesButton_Click()
 '///What happens when you put in a totes blend////////////////////////////////////////////////////////////////////
 
     'put 'Totes' in the line cell
-    Range("Q3").value = "Totes"
+    Range("F3").value = "Totes"
 
     'fill the row 3 cells yellow
-    Range("A3:U3").Select
+    Range("A3:V3").Select
     With Selection.Interior
         .Pattern = xlSolid
         .PatternColorIndex = xlAutomatic
@@ -352,10 +361,10 @@ Private Sub totesButton_Click()
     Dim runDay As String
     Dim runDate As Date
     
-    If IsWorkBookOpen("BlendingSchedule_2.0.xlsb") Then
-        Workbooks("BlendingSchedule_2.0.xlsb").Activate
-        runDate = ActiveCell.Offset(0, -4).value
-        runDay = ActiveCell.Offset(0, -3).value
+    If IsWorkBookOpen("BlendingSchedule.xlsb") Then
+        Workbooks("BlendingSchedule.xlsb").Activate
+        runDate = ActiveCell.Offset(0, 1).value
+        runDay = ActiveCell.Offset(0, 2).value
     Else
         runDate = InputBox("Enter the date as MM/DD/YYYY")
         Select Case Weekday(runDate)
@@ -378,8 +387,8 @@ Private Sub totesButton_Click()
     
     Unload WhichLineDialog_LOTNUM
     Workbooks("Blending Lot Number Generator").Activate
-    Range("R3").value = runDate
-    Range("S3").value = runDay
+    Range("S3").value = runDate
+    Range("T3").value = runDay
 
     'borders
     Range("A3:H3").Select
@@ -414,4 +423,7 @@ Private Sub totesButton_Click()
         .Weight = xlThin
     End With
     
+    Call LotNumToPostgres
+    
 End Sub
+

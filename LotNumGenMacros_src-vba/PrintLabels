@@ -19,7 +19,7 @@ Sub oldLotLabelPrint()
     Dim frm As UserForm1
     Set frm = UserForms.Add(UserForm1.Name)
     frm.ListData = Sheets("SageLotNumbers").Range("B:B").CurrentRegion
-    frm.show
+    frm.Show
 
 End Sub
 
@@ -60,8 +60,8 @@ Sub labelPrinter()
     'Set values into array slots
     labelInfo(0) = ActiveCell.Offset(0, 1).value   'shortname
     labelInfo(1) = ActiveCell.Offset(0, -1).value  'protection type
-    labelInfo(2) = ActiveCell.Offset(0, -12).value 'lot number
-    labelInfo(3) = ActiveCell.Offset(0, -14).value 'blend PN
+    labelInfo(2) = ActiveCell.Offset(0, -14).value 'lot number
+    labelInfo(3) = ActiveCell.Offset(0, -16).value 'blend PN
 
     'Put everything over there in the workbook that feeds the barTender templates
     Workbooks.Open "C:\OD\Kinpak, Inc\Blending - Documents\01 Spreadsheet Tools\Blending Label Templates & BTdatabases\BlendInventoryLabels\LabelGenLayover.xlsx"
@@ -125,8 +125,8 @@ Sub GHSgen()
 
 Dim blendPN, lotNum, picPath As String
 
-blendPN = ActiveCell.Offset(0, -23).value
-lotNum = ActiveCell.Offset(0, -21).value
+blendPN = ActiveCell.Offset(0, -24).value
+lotNum = ActiveCell.Offset(0, -22).value
 Workbooks.Open ("C:\OD\Kinpak, Inc\Blending - Documents\01 Spreadsheet Tools\Blending Label Templates & BTdatabases\GHSLabelGen\GHS_LabelBook.xlsb")
 picPath = "C:\OD\Kinpak, Inc\Blending - Documents\01 Spreadsheet Tools\Blending Label Templates & BTdatabases\GHSLabelGen\SDS_section2\" & blendPN & ".png"
     Range("A7").Select
@@ -136,20 +136,19 @@ picPath = "C:\OD\Kinpak, Inc\Blending - Documents\01 Spreadsheet Tools\Blending 
 
 Range("M2").value = blendPN
 Range("M3").value = lotNum
+Range("M6").Select
 
-MsgBox ("Open the paper tray on the printer, wait til the 'No Paper' error pops up, and then load a label into the manual feed slot.")
 
-
-Range("A1:J45").Select
-Selection.PrintOut
-
-Range("M2:M3").ClearContents
-
-Dim Pic As Object
-For Each Pic In ActiveSheet.Pictures
-Pic.Delete
-Next Pic
-
-ActiveWorkbook.Close
+'Range("A1:J45").Select
+'Selection.PrintOut
+'
+'Range("M2:M3").ClearContents
+'
+'Dim Pic As Object
+'For Each Pic In ActiveSheet.Pictures
+'Pic.Delete
+'Next Pic
+'
+'ActiveWorkbook.Close
 
 End Sub

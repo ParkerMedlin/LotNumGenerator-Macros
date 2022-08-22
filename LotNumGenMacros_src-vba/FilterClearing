@@ -2,7 +2,8 @@ Sub clearfilter()
 '///Assigned to the black circle with the X on Lot Number Generator sheet//////////////////////////////////////////////////
 '///clears the filter applied by lookup macro from blend schedule//////////////////////////////////////////////////////////
 
-    ActiveSheet.Range("$A$1:$A$704").AutoFilter Field:=1
+Range("B2").Select
+Selection.ListObject.AutoFilter.ShowAllData
     
 End Sub
 

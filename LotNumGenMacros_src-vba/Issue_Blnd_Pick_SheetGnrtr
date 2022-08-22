@@ -11,17 +11,17 @@ Sub issueSheetGen()
 
     'Declare array for blend info and populate it
     Dim blendInfo(6) As Variant
-    blendInfo(0) = ActiveCell.Offset(0, -8).value 'blend PN
-    blendInfo(1) = ActiveCell.Offset(0, -7).value 'blend Description
-    blendInfo(2) = ActiveCell.Offset(0, -5).value 'quantity
-    blendInfo(3) = ActiveCell.Offset(0, 9).value  'run date
-    blendInfo(4) = ActiveCell.Offset(0, 8).value  'line
+    blendInfo(0) = ActiveCell.Offset(0, -10).value 'blend PN
+    blendInfo(1) = ActiveCell.Offset(0, -9).value 'blend Description
+    blendInfo(2) = ActiveCell.Offset(0, -7).value 'quantity
+    blendInfo(3) = ActiveCell.Offset(0, 8).value  'run date
+    blendInfo(4) = ActiveCell.Offset(0, -5).value  'line
         
     'Declare array for lot numbers and populate it
     Dim lotNumbers(9) As Variant
-    lotNumbers(0) = ActiveCell.Offset(0, -6).value
+    lotNumbers(0) = ActiveCell.Offset(0, -8).value 'first lot number
     Dim lotQuantities(9) As Variant
-    lotQuantities(0) = ActiveCell.Offset(0, -5).value
+    lotQuantities(0) = ActiveCell.Offset(0, -7).value 'first lot qty
     ActiveCell.Select
     With Selection.Interior
         .Pattern = xlSolid
@@ -49,11 +49,11 @@ Sub issueSheetGen()
     Dim i As Integer
     i = 1
     For i = 1 To 9
-        If blendInfo(4) = ActiveCell.Offset(-1, 8) Then
-            If blendInfo(0) = ActiveCell.Offset(-1, -8) Then
-                If blendInfo(3) = ActiveCell.Offset(-1, 9) Then
-                    lotNumbers(i) = ActiveCell.Offset(-1, -6)
-                    lotQuantities(i) = ActiveCell.Offset(-1, -5)
+        If blendInfo(4) = ActiveCell.Offset(-1, -5) Then 'if line value matches next row
+            If blendInfo(0) = ActiveCell.Offset(-1, -10) Then 'if blend PN value matches next row
+                If blendInfo(3) = ActiveCell.Offset(-1, 8) Then 'if run date value matches next row
+                    lotNumbers(i) = ActiveCell.Offset(-1, -8)
+                    lotQuantities(i) = ActiveCell.Offset(-1, -7)
                     ActiveCell.Offset(-1, 0).Select
                     With Selection.Interior
                         .Pattern = xlSolid
@@ -69,7 +69,7 @@ Sub issueSheetGen()
     Next i
     
     'Open the blend issue sheet
-    Workbooks.Open Filename:= _
+    Workbooks.Open FileName:= _
         "G:\Blending\02 Blending Issue Sheet\NOT_Blending_Issue_Sheet.xlsb"
 
     With ActiveWorkbook
@@ -124,15 +124,15 @@ On Error GoTo JustInCase
     Dim blendInfo(5) As Variant
     'Copy the value of the shortage qty cell
     blendInfo(0) = ActiveCell.value         'qty
-    blendInfo(1) = ActiveCell.Offset(0, -8) 'lot number
-    blendInfo(2) = ActiveCell.Offset(0, 6)  'line
-    blendInfo(3) = ActiveCell.Offset(0, -9) 'blend desc
-    blendInfo(4) = ActiveCell.Offset(0, 7)  'run date
+    blendInfo(1) = ActiveCell.Offset(0, -10) 'lot number
+    blendInfo(2) = ActiveCell.Offset(0, -7)  'line
+    blendInfo(3) = ActiveCell.Offset(0, -11) 'blend desc
+    blendInfo(4) = ActiveCell.Offset(0, 6)  'run date
     
     'Get the filepath + name of the appropriate blend sheet and set formula calc to Automatic
     Dim blndShtPath As String
     blndShtPath = ActiveCell.Offset(0, 1).value
-    Workbooks.Open Filename:= _
+    Workbooks.Open FileName:= _
         blndShtPath
     Application.Calculation = xlAutomatic
 
@@ -176,16 +176,16 @@ On Error GoTo JustInCase
                     .TintAndShade = -0.249977111117893
                     .PatternTintAndShade = 0
                 End With
-                If blendInfo(3) = ActiveCell.Offset(-1, -9) Then
-                    If blendInfo(4) = ActiveCell.Offset(-1, 7) Then
-                        If blendInfo(2) = ActiveCell.Offset(-1, 6) Then
+                If blendInfo(3) = ActiveCell.Offset(-1, -11) Then 'blend desc
+                    If blendInfo(4) = ActiveCell.Offset(-1, 6) Then 'run date
+                        If blendInfo(2) = ActiveCell.Offset(-1, -7) Then 'line
                             Dim moreInfo(4) As Variant 'another array to hold info for next line up
                             ActiveCell.Offset(-1, 0).Select 'hit up the next line if the blend desc's match
                             Selection.Activate
                             moreInfo(0) = ActiveCell.value         'qty
-                            moreInfo(1) = ActiveCell.Offset(0, -8) 'lot number
-                            moreInfo(2) = ActiveCell.Offset(0, 6)  'line
-                            moreInfo(3) = ActiveCell.Offset(0, -9) 'blend desc
+                            moreInfo(1) = ActiveCell.Offset(0, -10) 'lot number
+                            moreInfo(2) = ActiveCell.Offset(0, -7)  'line
+                            moreInfo(3) = ActiveCell.Offset(0, -11) 'blend desc
                             Windows(blndSht).Activate
                             'Put the lot qty and lot num into the sheet and print
                             Cells.Find(what:="Theory Gallons", After:=ActiveCell, LookIn:=xlFormulas2 _
@@ -219,14 +219,10 @@ Done: Exit Sub
 
 JustInCase:
     Dim uInput As Integer
-    uInput = MsgBox("Couldn't find this blend sheet--open folder to look for it manually?", vbQuestion + vbYesNo)
+    uInput = MsgBox("Couldn't find this blend sheet--open sheet to change filepath?", vbQuestion + vbYesNo)
 
     If uInput = vbYes Then
-        'Get the filepath of the blend sheet folder
-        Dim sheetsFolderPath As String
-        sheetsFolderPath = ActiveWorkbook.Sheets(2).Range("A2").value
-        Call Shell("explorer.exe " & sheetsFolderPath)
-        'Application.SendKeys ("%{TAB}"), True
+        Sheets("BlendSheets").Activate
     Else
         MsgBox "Ok"
     End If
@@ -242,9 +238,9 @@ Sub pickSheetGen()
 
     'Set the way back to the current workbook
     Dim lotInfo(3) As Variant
-    lotInfo(0) = ActiveCell.Offset(0, -12)
-    lotInfo(1) = ActiveCell.Offset(0, -11)
-    lotInfo(2) = ActiveCell.Offset(0, -10)
+    lotInfo(0) = ActiveCell.Offset(0, -14) 'blend PN
+    lotInfo(1) = ActiveCell.Offset(0, -13) 'blend Desc
+    lotInfo(2) = ActiveCell.Offset(0, -12) 'lot number
 
     'Go to blend schedule and filter [BlendPN] by the PN copied from Lot Number Gen
     Worksheets("pickSheetTable").Visible = True

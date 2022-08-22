@@ -1,0 +1,40 @@
+Sub deskSched()
+
+    Dim blendInfo(4) As Variant
+    Dim src As String
+    src = ActiveWorkbook.Name
+    
+    Dim deskNum As String
+    deskNum = "Desk" & ActiveCell.value
+    
+    Workbooks.Open ("https://adminkinpak.sharepoint.com/sites/BLND/Shared Documents/03 Projects/Blending Schedule/Blending-Schedule/BlendingSchedule.xlsb")
+    Windows("BlendingSchedule.xlsb").Activate
+    ActiveWorkbook.Sheets(deskNum).Activate
+    
+    Dim LastRow As Long
+    LastRow = Cells(Rows.Count, 1).End(xlUp).Row
+    
+    Rows(LastRow).Insert
+    
+    Windows(src).Activate
+    blendInfo(0) = ActiveCell.Offset(, -6) 'blend pn
+    blendInfo(1) = ActiveCell.Offset(, -5) 'desc
+    blendInfo(2) = ActiveCell.Offset(, -4) 'lot num
+    blendInfo(3) = ActiveCell.Offset(, -3) 'qty
+    
+    Windows("BlendingSchedule.xlsb").Activate
+    Range("A" & LastRow).value = "'" & blendInfo(0) 'blend pn
+    Range("B" & LastRow).value = blendInfo(1) 'desc
+    Range("C" & LastRow).value = blendInfo(2) 'lot num
+    Range("D" & LastRow).value = blendInfo(3) 'qty
+    
+    Windows(src).Activate
+    With Selection.Interior
+        .Pattern = xlSolid
+        .PatternColorIndex = xlAutomatic
+        .ThemeColor = xlThemeColorDark1
+        .TintAndShade = -0.249977111117893
+        .PatternTintAndShade = 0
+    End With
+    
+End Sub

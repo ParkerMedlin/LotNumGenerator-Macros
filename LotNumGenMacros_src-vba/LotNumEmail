@@ -3,14 +3,14 @@ Public Function lotStringer()
 '///all consecutive lots that share Date and blend PN.
 
 Dim lotNumStrang As String, pnStr As String, dateStr As Date
-lotDate = ActiveCell.Offset(, 11).value
-pnStr = ActiveCell.Offset(, -6).value
-lotNumStrang = ActiveCell.Offset(, -4)
+lotDate = ActiveCell.Offset(, 10).value
+pnStr = ActiveCell.Offset(, -8).value
+lotNumStrang = ActiveCell.Offset(, -6)
 
 For j = 1 To 6
-    If ActiveCell.Offset(-(j), 11).value = lotDate Then
-        If ActiveCell.Offset(-(j), -6).value = pnStr Then
-            lotNumStrang = lotNumStrang + ", " + ActiveCell.Offset(-(j), -4).value
+    If ActiveCell.Offset(-(j), 10).value = lotDate Then
+        If ActiveCell.Offset(-(j), -8).value = pnStr Then
+            lotNumStrang = lotNumStrang + ", " + ActiveCell.Offset(-(j), -6).value
         End If
     Else
        ActiveCell.Offset(-(j), 0).Select
@@ -31,15 +31,13 @@ Sub showLotNums()
     Call macrosOff
     
     'open and prepare Horix sheet
-    Workbooks.Open Filename:= _
-    "C:\OD\Kinpak, Inc\Production - Documents\Production Schedule\Starbrite KPK production schedule.xlsb"
+    Workbooks.Open ("https://adminkinpak.sharepoint.com/sites/PDTN/Shared Documents/Production Schedule/Starbrite KPK production schedule.xlsb")
     With Workbooks("Starbrite KPK production schedule.xlsb")
         Sheets("Horix Line").Activate
         Dim drumCell As Range
         Set drumCell = Range("C2:C100").Find(what:="DRUMS", LookIn:=xlValues, lookat:=xlWhole)
         With drumCell
             .Offset(, 10).value = "Lot Numbers"
-            
             .Copy
             .Offset(, 10).PasteSpecial Paste:=xlPasteFormats
         End With
@@ -64,11 +62,12 @@ Sub showLotNums()
             pSchedPN = drumCell.Offset(inc, 4).value
             pSchedDate = drumCell.Offset(inc, 8).value
             Windows(src).Activate
-            If ActiveCell.Offset(, 10) <> "Dm" Then
+            If ActiveCell.Offset(, -3) <> "Dm" Then
                 Exit For
             End If
-            lngPN = ActiveCell.Offset(0, -6)
-            lngDate = ActiveCell.Offset(0, 11)
+            lngPN = ActiveCell.Offset(0, -8)
+            lngDate = ActiveCell.Offset(0, 10)
+            Debug.Print lngPN
             Windows("Starbrite KPK production schedule.xlsb").Activate
             If drumCell.Offset(inc, 8) = lngDate Then
                 If drumCell.Offset(inc, 4) = lngPN Then

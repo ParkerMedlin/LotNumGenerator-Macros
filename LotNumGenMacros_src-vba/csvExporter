@@ -3,7 +3,7 @@ Sub CSVfile()
         Selection.Copy
         Sheets.Add
         Selection.PasteSpecial Paste:=xlPasteValues
-    ActiveWorkbook.SaveAs Filename:="C:\Users\pmedlin\Desktop\lotnums.csv", _
+    ActiveWorkbook.SaveAs FileName:="C:\Users\pmedlin\Desktop\lotnums.csv", _
     FileFormat:=xlCSV, CreateBackup:=False
 End Sub
 

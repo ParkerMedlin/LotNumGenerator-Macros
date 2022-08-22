@@ -8,7 +8,7 @@ With RegEx                                                                      
     .IgnoreCase = IgnoreCase
     If .test(TestString) = True Then
         Set oMatches = .Execute(TestString)
-        If oMatches.count >= Instance Then TEXTEXTRACTOR = oMatches(Instance - 1)
+        If oMatches.Count >= Instance Then TEXTEXTRACTOR = oMatches(Instance - 1)
     End If
 End With
 End Function

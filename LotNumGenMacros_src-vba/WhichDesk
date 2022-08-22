@@ -1,0 +1,9 @@
+Private Sub Desk1_Click()
+    Range("G3").value = 1
+    Unload WhichDesk
+End Sub
+
+Private Sub Desk2_Click()
+    Range("G3").value = 2
+    Unload WhichDesk
+End Sub

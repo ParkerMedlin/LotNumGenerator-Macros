@@ -12,13 +12,13 @@ Sub plusSign()
 '///Calls the incrementor and then the WhichLine userform//////////////////////////////////////////////////////////////////
 
 Call increment
-WhichLineDialog_LOTNUM.show
+WhichLineDialog_LOTNUM.Show
 If Range("Z1").value = "Cancelled" Then
     Range("Z1").ClearContents
     Range("J3").Select
 Else
     Call copyLast
-    Range("J3").Select
+    Range("B3").Select
 End If
 End Sub
 
@@ -28,24 +28,15 @@ Sub increment()
 
 'make an array, grab lot info, insert it in the new row, timestamp it
 Call macrosOff
-Dim batchInfo(10) As Variant
+
+Dim batchInfo(6) As Variant
 batchInfo(0) = Range("A2").value  'part number (convert the value to text so INDEX(MATCH()) still works)
+batchInfo(0) = "'" + batchInfo(0)
 batchInfo(1) = Range("B2").value 'blend desc
 batchInfo(2) = Range("C2").value 'lot number
 batchInfo(3) = Range("D2").value 'quantity
 batchInfo(4) = RoundUp((batchInfo(3) / 250)) * 2 'label quantity
 batchInfo(5) = RoundUp((batchInfo(3) / 250)) 'tote quantity
-
-'Dim toteWashFactor As Double, blendVarTime As Double, blendFixedTime As Double
-'toteWashTime = WorksheetFunction.Index(Sheets("BlndCats").Columns("D:D"), Application.Match(batchInfo(0), Sheets("BlndCats").Columns("A:A"), 0))
-'blendVarTime = WorksheetFunction.Index(Sheets("BlndCats").Columns("E:E"), Application.Match(batchInfo(0), Sheets("BlndCats").Columns("A:A"), 0))
-'blendFixedTime = WorksheetFunction.Index(Sheets("BlndCats").Columns("F:F"), Application.Match(batchInfo(0), Sheets("BlndCats").Columns("A:A"), 0))
-
-batchInfo(6) = batchInfo(5) * toteWashTime 'time needed to wash totes
-batchInfo(7) = batchInfo(3) * blendVarTime 'estimated VARIABLE time for just blending
-batchInfo(8) = blendFixedTime
-batchInfo(9) = (batchInfo(6) + batchInfo(7) + batchInfo(8)) / 60 'combined time converted to hours
-batchInfo(0) = "'" & batchInfo(0)
 
 Rows("3:3").Select
 Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromRightOrBelow
@@ -59,25 +50,20 @@ Range("A3").value = batchInfo(0) 'plug in part number
 Range("B3").value = batchInfo(1) 'plug in blend desc
 Range("C3").value = batchInfo(2) 'plug in lot number
 Range("D3").value = batchInfo(3) 'plug in quantity
+Range("H3").value = (Range("H4").value) + 1
 
 'Copy all the formatting and formulae for I:V to new row
-Range("G4:X4").Select
+Range("I4:Y4").Select
 Selection.Copy
-Range("G3:X3").Select
+Range("I3:Y3").Select
 ActiveCell.PasteSpecial Paste:=xlPasteAll
-Range("K3").value = batchInfo(3) 'plug in quantity in blend sheet cell
-Range("O3").value = batchInfo(4) 'plug in the label quantity
-If Range("Q3").value = "Prod" Then
-    Range("V3").value = batchInfo(5) 'plug in the tote quantity
-    Range("W3").value = Round(batchInfo(8), 2) 'plug in the projected hours needed
-End If
+Range("M3").value = batchInfo(3) 'plug in quantity in blend sheet cell
+Range("Q3").value = batchInfo(4) 'plug in the label quantity
 Range("E3").value = Now() 'timestamp
-If Range("W3").value = 0 Then
-    Range("W3").value = "??"
-End If
+Range("R3").Formula2 = "=INDEX(BLNDSHTS[ShortName],MATCH(A3,BLNDSHTS[ComponentItemCode from Sage],0))"
 
 'Increment the seed number
-Range("G1").value = Range("G1").value + 1
+Range("I1").value = Range("I1").value + 1
 
 'Cleanup
 Range("B2").value = ""
@@ -104,9 +90,9 @@ For i = 1 To loopCount
     'Get all the info from the previous lot
     lotInfo(0) = Range("B3").value 'description
     lotInfo(1) = Range("D3").value 'lot quantity
-    lotInfo(2) = Range("Q3").value 'line
-    lotInfo(3) = Range("R3").value 'run date
-    lotInfo(4) = Range("S3").value 'run day
+    lotInfo(2) = Range("F3").value 'line
+    lotInfo(3) = Range("S3").value 'run date
+    lotInfo(4) = Range("T3").value 'run day
     
     'Put description and qty into the slot at the top
     Range("B2").value = lotInfo(0) 'plug in desc
@@ -116,13 +102,23 @@ For i = 1 To loopCount
     Call increment
     
     'Put the Line, Run Date, and Day info into the top row
-    Range("Q3").value = lotInfo(2) 'plug in line
-    Range("R3").value = lotInfo(3) 'plug in run date
-    Range("S3").value = lotInfo(4) 'plug in run day
+    Range("F3").value = lotInfo(2) 'plug in line
+    Range("S3").value = lotInfo(3) 'plug in run date
+    Range("T3").value = lotInfo(4) 'plug in run day
     
     'Copy formatting from the previous lot
     Range("A4:V4").Copy
     Range("A3:V3").PasteSpecial Paste:=xlPasteFormats
+    
+    Dim uInput As Integer
+    uInput = MsgBox("Copy to Postgres?", vbQuestion + vbYesNo)
+    If uInput = vbYes Then
+        Dim pyArgs As String
+        
+        pyArgs = "'" & Range("A3").value & "', '" & Range("B3").value & "', '" & Range("C3").value & "', '" & Range("D3").value & "', '" & Range("E3").value & "', '" & Range("F3").value & "'"
+        RunPython "import lotNumPyScripts; lotNumPyScripts.lotNumtoPG(" & pyArgs & ")"
+    End If
+    
 Next i
 Application.CutCopyMode = False
 
