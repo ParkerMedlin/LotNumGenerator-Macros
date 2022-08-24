@@ -37,4 +37,15 @@ Sub deskSched()
         .PatternTintAndShade = 0
     End With
     
+    'add this lot to the postgres database:
+    Dim uInput As Integer
+    uInput = MsgBox("Add to schedule in Postgres too?", vbQuestion + vbYesNo)
+    If uInput = vbYes Then
+        Dim pyArgs As String
+        Dim totes_needed As Double
+        totes_needed = Application.WorksheetFunction.RoundUp(blendInfo(3) / 250, 0)
+        pyArgs = "'" & blendInfo(0) & "', '" & blendInfo(1) & "', '" & blendInfo(3) & "', '" & totes_needed & "', '" & deskNum & "', '" & blendInfo(2) & "'"
+        RunPython "import lotNumPyScripts; lotNumPyScripts.blendScheduler(" & pyArgs & ")"
+    End If
+    
 End Sub
